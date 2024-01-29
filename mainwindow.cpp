@@ -12,3 +12,9 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+void MainWindow::on_btnAddBall_clicked()
+{
+    // variables, starting position X and Y, number of balls, ball speed, ball direction
+}
+
