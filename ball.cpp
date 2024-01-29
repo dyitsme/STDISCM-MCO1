@@ -1,8 +1,8 @@
 #include "ball.h"
 
-Ball::Ball()
+Ball::Ball(qreal sp)
 {
-    speed = 5;
+    speed = sp;
 
     // random start position to be removed
     startingPosX = QRandomGenerator::global()->bounded(100);
@@ -27,13 +27,13 @@ void Ball::advance(int step)
 
     QPointF location = this->pos();
 
-    setPos(mapToParent(0, -(speed)));
+    setPos(mapToParent(0, (speed)));
 }
 
 QPainterPath Ball::shape() const
 {
     QPainterPath path;
-    path.addRect(0, 0, 20, 40);
+    path.addEllipse(boundingRect());
     return path;
 }
 

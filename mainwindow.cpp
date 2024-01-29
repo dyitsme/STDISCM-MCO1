@@ -37,14 +37,16 @@ MainWindow::~MainWindow()
 }
 
 int numBalls;
+qreal speed;
 
 void MainWindow::on_btnAddBall_clicked()
 {
     // variables, starting position X and Y, number of balls, ball speed, ball direction
     numBalls = ui->txtNumBalls->text().toInt();
+    speed = ui->txtBallSpeed->text().toDouble();
 
     for (int i = 0; i < numBalls; ++i) {
-        Ball *ball = new Ball();
+        Ball *ball = new Ball(speed);
         scene->addItem(ball);
     }
 

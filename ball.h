@@ -9,7 +9,7 @@
 class Ball : public QGraphicsItem
 {
 public:
-    Ball();
+    Ball(qreal speed);
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
