@@ -49,6 +49,10 @@ void MainWindow::on_btnAddBall_clicked()
         Ball *ball = new Ball(speed);
         scene->addItem(ball);
     }
+    // clearing of input fields
+
+    ui->txtNumBalls->setText("");
+    ui->txtBallSpeed->setText("");
 
 }
 
