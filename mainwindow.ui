@@ -126,13 +126,13 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLineEdit" name="txtWallPosX1"/>
+      <widget class="QLineEdit" name="wallX1"/>
      </item>
      <item row="3" column="1">
-      <widget class="QLineEdit" name="txtWallPosX2"/>
+      <widget class="QLineEdit" name="wallX2"/>
      </item>
      <item row="2" column="1">
-      <widget class="QLineEdit" name="lineEdit"/>
+      <widget class="QLineEdit" name="wallY1"/>
      </item>
      <item row="3" column="0">
       <widget class="QLabel" name="label_2">
@@ -182,10 +182,10 @@
       </widget>
      </item>
      <item row="4" column="1">
-      <widget class="QLineEdit" name="lineEdit_2"/>
+      <widget class="QLineEdit" name="wallY2"/>
      </item>
      <item row="5" column="1">
-      <widget class="QLineEdit" name="lineEdit_3"/>
+      <widget class="QLineEdit" name="wallSlope"/>
      </item>
     </layout>
    </widget>

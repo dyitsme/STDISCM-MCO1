@@ -27,6 +27,8 @@ public:
 private slots:
     void on_btnAddBall_clicked();
 
+    void on_btnAddWall_clicked();
+
 private:
     Ui::MainWindow *ui;
 
