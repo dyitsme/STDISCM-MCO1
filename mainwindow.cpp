@@ -10,6 +10,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     scene = new QGraphicsScene(this);
     ui->graphicsView->setScene(scene);
+
+    timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), scene, SLOT(advance()));
+    timer->start(1000 / 33);
+
 }
 
 MainWindow::~MainWindow()
@@ -23,8 +28,12 @@ void MainWindow::on_btnAddBall_clicked()
 {
     // variables, starting position X and Y, number of balls, ball speed, ball direction
     numBalls = ui->txtNumBalls->text().toInt();
-    Ball *ball = new Ball();
-    scene->addItem(ball);
+
+    for (int i = 0; i < numBalls; ++i) {
+        Ball *ball = new Ball();
+        scene->addItem(ball);
+    }
+
 }
 
 

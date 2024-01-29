@@ -4,6 +4,7 @@
 #include <QPainter>
 #include <QGraphicsItem>
 #include <QGraphicsScene>
+#include <QRandomGenerator>
 
 class Ball : public QGraphicsItem
 {

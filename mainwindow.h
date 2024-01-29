@@ -6,6 +6,9 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QGraphicsItem>
+#include <QtCore>
+#include <QtGui>
+#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -28,6 +31,7 @@ private:
     Ui::MainWindow *ui;
 
     QGraphicsScene *scene;
+    QTimer *timer;
 
 };
 #endif // MAINWINDOW_H
