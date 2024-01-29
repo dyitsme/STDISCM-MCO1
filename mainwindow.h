@@ -2,6 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QDialog>
+#include <QGraphicsScene>
+#include <QGraphicsView>
+#include <QGraphicsItem>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -17,7 +21,13 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_btnAddBall_clicked();
+
 private:
     Ui::MainWindow *ui;
+
+    QGraphicsScene *scene;
+
 };
 #endif // MAINWINDOW_H
