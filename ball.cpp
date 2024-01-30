@@ -24,6 +24,7 @@ void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
     painter->setBrush(Qt::red);
     painter->drawEllipse(startingPosX, startingPosY, 10, 10);
 
+    qDebug() << scene();
     // if (
     //     painter->setBrush(Qt::green);
     // }

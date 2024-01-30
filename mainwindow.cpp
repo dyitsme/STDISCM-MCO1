@@ -13,8 +13,17 @@ MainWindow::MainWindow(QWidget *parent)
     scene = new QGraphicsScene(this);
     ui->graphicsView->setScene(scene);
 
+    // Create a label to display FPS
+    fpsLabel = ui->counterfpslabel;
+    fpsLabel->setText("FPS: 0");
+
+    // Setup a timer to update FPS
+    fpsTimer = new QTimer(this);
+    connect(fpsTimer, SIGNAL(timeout()), this, SLOT(updateFPS()));
+    fpsTimer->start(500); // Update every half-second
+
     timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), scene, SLOT(advance()));
+    connect(timer, SIGNAL(timeout()), scene, SLOT(advance())));
     timer->start(10);
 
     // Set the transformation to flip the Y-axis
@@ -30,8 +39,19 @@ MainWindow::MainWindow(QWidget *parent)
 
     scene->addItem(invisibleLine);
 
+
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    // creating walls on the borders
+    QGraphicsLineItem *bottomwall = new QGraphicsLineItem(0, 0, 1920, 0);
+    QGraphicsLineItem *topwall = new QGraphicsLineItem(0, 715, 1920, 715);
+    QGraphicsLineItem *leftwall = new QGraphicsLineItem(0, 0, 0, 720);
+    QGraphicsLineItem *rightwall = new QGraphicsLineItem(1915, 0, 1915, 720);
+    scene->addItem(topwall);
+    scene->addItem(bottomwall);
+    scene->addItem(leftwall);
+    scene->addItem(rightwall);
 }
 
 MainWindow::~MainWindow()
