@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "ball.h"
+#include "wall.h"
 #include "QGraphicsLineItem"
 #include <QPen>
 #include <QColor>
@@ -13,17 +14,17 @@ MainWindow::MainWindow(QWidget *parent)
     scene = new QGraphicsScene(this);
     ui->graphicsView->setScene(scene);
 
-    // Create a label to display FPS
-    fpsLabel = ui->counterfpslabel;
-    fpsLabel->setText("FPS: 0");
+    // // Create a label to display FPS
+    // fpsLabel = ui->counterfpslabel;
+    // fpsLabel->setText("FPS: 0");
 
-    // Setup a timer to update FPS
-    fpsTimer = new QTimer(this);
-    connect(fpsTimer, SIGNAL(timeout()), this, SLOT(updateFPS()));
-    fpsTimer->start(500); // Update every half-second
+    // // Setup a timer to update FPS
+    // fpsTimer = new QTimer(this);
+    // connect(fpsTimer, SIGNAL(timeout()), this, SLOT(updateFPS()));
+    // fpsTimer->start(500); // Update every half-second
 
     timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), scene, SLOT(advance())));
+    //connect(timer, SIGNAL(timeout()), scene, SLOT(advance())));
     timer->start(10);
 
     // Set the transformation to flip the Y-axis
@@ -31,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
     transform.scale(1, -1); // Flip the Y-axis
     transform.translate(0, -ui->graphicsView->height()); // Shift the scene downwards
     ui->graphicsView->setTransform(transform);
-    QGraphicsLineItem *invisibleLine = new QGraphicsLineItem(0, 0, 1280, 720);
+    Wall *invisibleLine = new Wall(0, 0, 1280, 720);
 
     // Set the pen to a transparent color
     QPen pen(Qt::transparent);
@@ -44,10 +45,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     // creating walls on the borders
-    QGraphicsLineItem *bottomwall = new QGraphicsLineItem(0, 0, 1920, 0);
-    QGraphicsLineItem *topwall = new QGraphicsLineItem(0, 715, 1920, 715);
-    QGraphicsLineItem *leftwall = new QGraphicsLineItem(0, 0, 0, 720);
-    QGraphicsLineItem *rightwall = new QGraphicsLineItem(1915, 0, 1915, 720);
+    Wall *bottomwall = new Wall(0, 0, 1920, 0);
+    Wall *topwall = new Wall(0, 715, 1920, 715);
+    Wall *leftwall = new Wall(0, 0, 0, 720);
+    Wall *rightwall = new Wall(1915, 0, 1915, 720);
     scene->addItem(topwall);
     scene->addItem(bottomwall);
     scene->addItem(leftwall);
@@ -100,7 +101,7 @@ void MainWindow::on_btnAddWall_clicked() {
     // wallY2 = 720 - wallY2;
 
     // Create a line representing the wall and add it to the scene
-    QGraphicsLineItem *wall = new QGraphicsLineItem(wallX1, wallY1, wallX2, wallY2);
+    Wall *wall = new Wall(wallX1, wallY1, wallX2, wallY2);
     scene->addItem(wall);
     // Clearing the input fields
     ui->wallX1->setText("");
