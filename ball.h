@@ -5,11 +5,12 @@
 #include <QGraphicsItem>
 #include <QGraphicsScene>
 #include <QRandomGenerator>
+#include <QtMath>
 
 class Ball : public QGraphicsItem
 {
 public:
-    Ball(qreal speed);
+    Ball(qreal startPosX, qreal startPosY, qreal speed, qreal angle);
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
@@ -22,6 +23,7 @@ private:
     qreal startingPosY = 0;
     qreal angle = 0;
     qreal speed = 0;
+    void DoCollision();
 };
 
 #endif // BALL_H

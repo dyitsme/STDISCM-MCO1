@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), scene, SLOT(advance()));
-    timer->start(1000 / 33);
+    timer->start(10);
 
     // Set the transformation to flip the Y-axis
     QTransform transform;
@@ -29,6 +29,9 @@ MainWindow::MainWindow(QWidget *parent)
     invisibleLine->setPen(pen);
 
     scene->addItem(invisibleLine);
+
+    ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
 
 MainWindow::~MainWindow()
@@ -37,22 +40,28 @@ MainWindow::~MainWindow()
 }
 
 int numBalls;
-qreal speed;
+qreal speed, angle, startPosX, startPosY;
 
 void MainWindow::on_btnAddBall_clicked()
 {
     // variables, starting position X and Y, number of balls, ball speed, ball direction
+    startPosX = ui->txtBallPosX->text().toInt();
+    startPosY = ui->txtBallPosX->text().toInt();
     numBalls = ui->txtNumBalls->text().toInt();
     speed = ui->txtBallSpeed->text().toDouble();
+    angle = ui->txtBallAngle->text().toDouble();
 
     for (int i = 0; i < numBalls; ++i) {
-        Ball *ball = new Ball(speed);
+        Ball *ball = new Ball(startPosX, startPosY, speed, angle);
         scene->addItem(ball);
     }
     // clearing of input fields
 
+    ui->txtBallPosX->setText("");
+    ui->txtBallPosY->setText("");
     ui->txtNumBalls->setText("");
     ui->txtBallSpeed->setText("");
+    ui->txtBallAngle->setText("");
 
 }
 
