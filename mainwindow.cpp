@@ -14,17 +14,17 @@ MainWindow::MainWindow(QWidget *parent)
     scene = new QGraphicsScene(this);
     ui->graphicsView->setScene(scene);
 
-    // // Create a label to display FPS
-    // fpsLabel = ui->counterfpslabel;
-    // fpsLabel->setText("FPS: 0");
+    // Create a label to display FPS
+    fpsLabel = ui->counterfpslabel;
+    fpsLabel->setText("0");
 
-    // // Setup a timer to update FPS
-    // fpsTimer = new QTimer(this);
-    // connect(fpsTimer, SIGNAL(timeout()), this, SLOT(updateFPS()));
-    // fpsTimer->start(500); // Update every half-second
+    // Setup a timer to update FPS
+    fpsTimer = new QTimer(this);
+    connect(fpsTimer, SIGNAL(timeout()), this, SLOT(updateFPS()));
+    fpsTimer->start(500); // Update every half-second
 
     timer = new QTimer(this);
-    //connect(timer, SIGNAL(timeout()), scene, SLOT(advance())));
+    connect(timer, SIGNAL(timeout()), scene, SLOT(advance()));
     timer->start(10);
 
     // Set the transformation to flip the Y-axis
@@ -58,6 +58,16 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::updateFPS()
+{
+    // Calculate FPS
+    int frames = frameCount;
+    frameCount = 0;
+
+    // Update the FPS label
+    fpsLabel->setText("FPS: " + QString::number(frames));
 }
 
 int numBalls;

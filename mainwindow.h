@@ -9,6 +9,7 @@
 #include <QtCore>
 #include <QtGui>
 #include <QTimer>
+#include <QLabel>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -25,6 +26,7 @@ public:
     ~MainWindow();
 
 private slots:
+    void updateFPS();
     void on_btnAddBall_clicked();
 
     void on_btnAddWall_clicked();
@@ -34,6 +36,9 @@ private:
 
     QGraphicsScene *scene;
     QTimer *timer;
+    QTimer *fpsTimer;
+    QLabel *fpsLabel;
+    int frameCount;
 
 };
 #endif // MAINWINDOW_H
