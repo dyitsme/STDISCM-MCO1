@@ -32,23 +32,21 @@ MainWindow::MainWindow(QWidget *parent)
     transform.scale(1, -1); // Flip the Y-axis
     transform.translate(0, -ui->graphicsView->height()); // Shift the scene downwards
     ui->graphicsView->setTransform(transform);
-    Wall *invisibleLine = new Wall(0, 0, 1280, 720);
+
 
     // Set the pen to a transparent color
-    QPen pen(Qt::transparent);
-    invisibleLine->setPen(pen);
+    //QPen pen(Qt::transparent);
 
-    scene->addItem(invisibleLine);
 
 
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     // creating walls on the borders
-    Wall *bottomwall = new Wall(0, 0, 1920, 0);
-    Wall *topwall = new Wall(0, 715, 1920, 715);
+    Wall *bottomwall = new Wall(0, 0, 1280, 0);
+    Wall *topwall = new Wall(0, 720, 1280, 720);
     Wall *leftwall = new Wall(0, 0, 0, 720);
-    Wall *rightwall = new Wall(1915, 0, 1915, 720);
+    Wall *rightwall = new Wall(1280, 0, 1280, 720);
     scene->addItem(topwall);
     scene->addItem(bottomwall);
     scene->addItem(leftwall);

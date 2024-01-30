@@ -1,4 +1,6 @@
 #include "ball.h"
+#include "wall.h"
+#include <cstdlib>
 #include<QDebug>
 
 Ball::Ball(qreal startPosX, qreal startPosY, qreal sp, qreal a)
@@ -24,7 +26,7 @@ void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
     painter->setBrush(Qt::red);
     painter->drawEllipse(startingPosX, startingPosY, 10, 10);
 
-    qDebug() << scene();
+    //qDebug() << scene();
     // if (
     //     painter->setBrush(Qt::green);
     // }
@@ -36,25 +38,33 @@ void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 
 void Ball::advance(int step)
 {
-    qreal dx = speed*qCos(qDegreesToRadians(angle));
-    qreal dy = speed*qSin(qDegreesToRadians(angle));
-    qDebug() << dy;
-
-
-    // include angles
-
     if (!step) return;
 
-    QPointF location = this->pos();
+    checkForCollision();
+
+    qreal dx = speed * qCos(qDegreesToRadians(angle));
+    qreal dy = speed * qSin(qDegreesToRadians(angle));
 
     setPos(mapToParent(dx, dy));
 }
 
-void Ball::DoCollision()
+void Ball::checkForCollision()
 {
-    // setPos(mapToParent(dx, dy));
+    QList<QGraphicsItem*> colliding_items = collidingItems();
+    for (QGraphicsItem* item : colliding_items) {
+        if (typeid(*item) == typeid(Wall)) {
+            DoCollision();
+            return; // Assume one collision at a time for simplicity
+        }
+    }
 }
 
+void Ball::DoCollision()
+{
+    // Simple collision response: reverse the angle
+    // More complex physics might be required for more realistic behavior
+    angle = angle - 180;
+}
 QPainterPath Ball::shape() const
 {
     QPainterPath path;

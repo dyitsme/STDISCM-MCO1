@@ -17,6 +17,7 @@ public:
                QWidget *widget) override;
 protected:
     void advance(int step) override;
+    void checkForCollision();
 
 private:
     qreal startingPosX = 0;
