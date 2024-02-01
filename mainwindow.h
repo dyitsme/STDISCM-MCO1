@@ -9,6 +9,7 @@
 #include <QtCore>
 #include <QtGui>
 #include <QTimer>
+#include <QElapsedTimer>
 #include <QLabel>
 
 QT_BEGIN_NAMESPACE
@@ -24,6 +25,9 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void paintEvent(QPaintEvent *event) override;
+
+protected:
 
 private slots:
     void updateFPS();
@@ -36,6 +40,7 @@ private:
 
     QGraphicsScene *scene;
     QTimer *timer;
+    QElapsedTimer *elapsedTimer;
     QTimer *fpsTimer;
     QLabel *fpsLabel;
     int frameCount;

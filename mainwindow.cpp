@@ -27,6 +27,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(timer, SIGNAL(timeout()), scene, SLOT(advance()));
     timer->start(10);
 
+
+    // elapsedTimer = new QElapsedTimer();
+    // elapsedTimer->start();
+    // qDebug() << "elapsedTimer" << (double)elapsedTimer->elapsed()/1000.00;
+
     // Set the transformation to flip the Y-axis
     QTransform transform;
     transform.scale(1, -1); // Flip the Y-axis
@@ -42,11 +47,12 @@ MainWindow::MainWindow(QWidget *parent)
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
+    int b = 1;
     // creating walls on the borders
-    Wall *bottomwall = new Wall(0, 0, 1280, 0);
-    Wall *topwall = new Wall(0, 720, 1280, 720);
-    Wall *leftwall = new Wall(0, 0, 0, 720);
-    Wall *rightwall = new Wall(1280, 0, 1280, 720);
+    Wall *bottomwall = new Wall(0-b, 0-b, 1280+b, 0-b);
+    Wall *topwall = new Wall(0-b, 720+b, 1280+b, 720+b);
+    Wall *leftwall = new Wall(0-b, 0-b, 0-b, 720+b);
+    Wall *rightwall = new Wall(1280+b, 0-b, 1280+b, 720+b);
     scene->addItem(topwall);
     scene->addItem(bottomwall);
     scene->addItem(leftwall);
@@ -60,12 +66,37 @@ MainWindow::~MainWindow()
 
 void MainWindow::updateFPS()
 {
-    // Calculate FPS
+    // Calculate FPS based on frame count and time elapsed
+    static qint64 lastTime = 0;
+    qint64 currentTime = QDateTime::currentMSecsSinceEpoch();
+    qint64 elapsedTime = currentTime - lastTime;
+    lastTime = currentTime;
+
+
     int frames = frameCount;
     frameCount = 0;
 
+    // Calculate FPS
+    double fps = (frames * 1000.0) / elapsedTime;
+
     // Update the FPS label
-    fpsLabel->setText("FPS: " + QString::number(frames));
+    fpsLabel->setText("r: " + QString::number(fps, 'f', 1));}
+
+void MainWindow::paintEvent(QPaintEvent *event)
+{
+    // Increment frame count
+    ++frameCount;
+    // qDebug() << "frameCount: " << frameCount;
+
+    // if (timer->elapsed() >= 1000)
+    // {
+
+    //     double fps = frameCount / ((double)frameTime.elapsed()/1000.0);
+
+    // }
+
+
+    // Your painting code goes here
 }
 
 int numBalls;
@@ -79,6 +110,7 @@ void MainWindow::on_btnAddBall_clicked()
     numBalls = ui->txtNumBalls->text().toInt();
     speed = ui->txtBallSpeed->text().toDouble();
     angle = ui->txtBallAngle->text().toDouble();
+
 
     for (int i = 0; i < numBalls; ++i) {
         Ball *ball = new Ball(startPosX, startPosY, speed, angle);
@@ -101,7 +133,6 @@ void MainWindow::on_btnAddWall_clicked() {
     wallY1 = ui->wallY1->text().toInt();
     wallX2 = ui->wallX2->text().toInt();
     wallY2 = ui->wallY2->text().toInt();
-    wallSlope = ui->wallSlope->text().toInt();
 
     // Inverting the Y-coordinates to match QGraphicsView's coordinate system
 
@@ -116,6 +147,5 @@ void MainWindow::on_btnAddWall_clicked() {
     ui->wallY1->setText("");
     ui->wallX2->setText("");
     ui->wallY2->setText("");
-    ui->wallSlope->setText("");
 }
 

@@ -109,59 +109,15 @@
     <property name="geometry">
      <rect>
       <x>1300</x>
-      <y>350</y>
+      <y>372</y>
       <width>191</width>
-      <height>233</height>
+      <height>211</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="wallGrid">
      <property name="verticalSpacing">
       <number>7</number>
      </property>
-     <item row="6" column="0" colspan="3">
-      <widget class="QPushButton" name="btnAddWall">
-       <property name="text">
-        <string>Add Wall</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="wallX1"/>
-     </item>
-     <item row="3" column="1">
-      <widget class="QLineEdit" name="wallX2"/>
-     </item>
-     <item row="2" column="1">
-      <widget class="QLineEdit" name="wallY1"/>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>End  (X2)</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Wall slope</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Start  (X1)</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_11">
-       <property name="text">
-        <string>Start (Y1)</string>
-       </property>
-      </widget>
-     </item>
      <item row="0" column="0">
       <widget class="QLabel" name="label_9">
        <property name="font">
@@ -174,6 +130,25 @@
        </property>
       </widget>
      </item>
+     <item row="3" column="1">
+      <widget class="QLineEdit" name="wallX2"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_11">
+       <property name="text">
+        <string>Start (Y1)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLineEdit" name="wallY2"/>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="wallX1"/>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="wallY1"/>
+     </item>
      <item row="4" column="0">
       <widget class="QLabel" name="label_12">
        <property name="text">
@@ -181,11 +156,26 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
-      <widget class="QLineEdit" name="wallY2"/>
+     <item row="5" column="0" colspan="3">
+      <widget class="QPushButton" name="btnAddWall">
+       <property name="text">
+        <string>Add Wall</string>
+       </property>
+      </widget>
      </item>
-     <item row="5" column="1">
-      <widget class="QLineEdit" name="wallSlope"/>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>End  (X2)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Start  (X1)</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>
