@@ -7,6 +7,7 @@
 #include <QRandomGenerator>
 #include <QtMath>
 #include <wall.h>
+#include <QTime>
 
 class Ball : public QGraphicsItem
 {
@@ -27,6 +28,10 @@ private:
     qreal startingPosY = 0;
     qreal angle = 0;
     qreal speed = 0;
+
+    QTime lastTime;
+    int frames;
+
 };
 
 #endif // BALL_H

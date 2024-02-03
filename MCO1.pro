@@ -10,12 +10,14 @@ CONFIG += c++17
 
 SOURCES += \
     ball.cpp \
+    gamescene.cpp \
     main.cpp \
     mainwindow.cpp \
     wall.cpp
 
 HEADERS += \
     ball.h \
+    gamescene.h \
     mainwindow.h \
     wall.h
 

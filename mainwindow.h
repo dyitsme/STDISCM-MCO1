@@ -11,6 +11,7 @@
 #include <QTimer>
 #include <QElapsedTimer>
 #include <QLabel>
+#include "gamescene.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -30,7 +31,7 @@ public:
 protected:
 
 private slots:
-    void updateFPS();
+    void displayFPS();
     void on_btnAddBall_clicked();
 
     void on_btnAddWall_clicked();
@@ -38,7 +39,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
-    QGraphicsScene *scene;
+    GameScene *scene;
     QTimer *timer;
     QElapsedTimer *elapsedTimer;
     QTimer *fpsTimer;

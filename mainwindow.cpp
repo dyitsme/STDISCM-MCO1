@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "ball.h"
 #include "wall.h"
+#include "gamescene.h"
 #include "QGraphicsLineItem"
 #include <QPen>
 #include <QColor>
@@ -11,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    scene = new QGraphicsScene(this);
+    scene = new GameScene(this);
     ui->graphicsView->setScene(scene);
 
     // Create a label to display FPS
@@ -19,13 +20,18 @@ MainWindow::MainWindow(QWidget *parent)
     fpsLabel->setText("0");
 
     // Setup a timer to update FPS
-    fpsTimer = new QTimer(this);
-    connect(fpsTimer, SIGNAL(timeout()), this, SLOT(updateFPS()));
-    fpsTimer->start(500); // Update every half-second
 
-    timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), scene, SLOT(advance()));
+
+
+    // moves the balls and computes for the fps of the scene, is dependent on the timer
+    timer = new QTimer(scene);
+    QObject::connect(timer, &QTimer::timeout, scene, &GameScene::advance);
+    QObject::connect(timer, &QTimer::timeout, scene, &GameScene::computeFPS);
     timer->start(10);
+
+    fpsTimer = new QTimer(this);
+    QObject::connect(fpsTimer, &QTimer::timeout, this, &MainWindow::displayFPS);
+    fpsTimer->start(500); // Update every half-second
 
 
     // elapsedTimer = new QElapsedTimer();
@@ -64,39 +70,16 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::updateFPS()
+void MainWindow::displayFPS()
 {
-    // Calculate FPS based on frame count and time elapsed
-    static qint64 lastTime = 0;
-    qint64 currentTime = QDateTime::currentMSecsSinceEpoch();
-    qint64 elapsedTime = currentTime - lastTime;
-    lastTime = currentTime;
-
-
-    int frames = frameCount;
-    frameCount = 0;
-
-    // Calculate FPS
-    double fps = (frames * 1000.0) / elapsedTime;
-
-    // Update the FPS label
-    fpsLabel->setText("r: " + QString::number(fps, 'f', 1));}
+    double fps = scene->getFPS();
+    fpsLabel->setText("r: " + QString::number(fps, 'f', 1));
+}
 
 void MainWindow::paintEvent(QPaintEvent *event)
 {
     // Increment frame count
     ++frameCount;
-    // qDebug() << "frameCount: " << frameCount;
-
-    // if (timer->elapsed() >= 1000)
-    // {
-
-    //     double fps = frameCount / ((double)frameTime.elapsed()/1000.0);
-
-    // }
-
-
-    // Your painting code goes here
 }
 
 int numBalls;

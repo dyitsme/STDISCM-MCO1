@@ -10,8 +10,7 @@ Ball::Ball(qreal startPosX, qreal startPosY, qreal spd, qreal direction)
     startingPosY = startPosY;
     speed = spd;
     angle = direction;
-
-
+    lastTime = QTime::currentTime();
 }
 
 QRectF Ball::boundingRect() const
@@ -24,7 +23,6 @@ void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
     painter->setBrush(Qt::red);
     painter->drawEllipse(startingPosX, startingPosY, 10, 10);
 
-    // qDebug() << scene();
 }
 
 void Ball::advance(int step)
@@ -40,7 +38,18 @@ void Ball::advance(int step)
 
     setPos(mapToParent(dx, dy));
 
-    update();
+    // QTime currentTime = QTime::currentTime();
+    // int elapsedTime = lastTime.msecsTo(currentTime);
+    // lastTime = currentTime;
+
+    // if (elapsedTime > 0) {
+    //     double fps = 1000.0 / elapsedTime;
+    //     // frames++;
+    //     qDebug() << "FPS:" << QString::number(fps, 'f', 2);
+    // }
+
+    // qDebug() << dx << " " << dy;
+    // update();
     // QPaintEvent event;
     // MainWindow* mainWindow.paintEvent(event);
 }
@@ -85,7 +94,7 @@ qreal Ball::calculateWallAngle(Wall* wall)
     // Calculate the angle in degrees
     //qreal angle = qRadiansToDegrees(qAtan2(wallY - ballY, wallX - ballX));
 
-    qDebug() << angle;
+    // qDebug() << angle;
     // Ensure the angle is positive and in the range [0, 360)
     angle = fmod(angle + 360.0, 360.0);
 
@@ -123,7 +132,7 @@ void Ball::DoCollision(const QList<QLineF>& walls)
         wallCount++;
     }
 
-    qDebug() << wallCount;
+    // qDebug() << wallCount;
 
     // Calculate the average reflection angle
     qreal averageReflectionAngle = totalReflectionAngle / wallCount;
@@ -134,7 +143,7 @@ void Ball::DoCollision(const QList<QLineF>& walls)
     // Set the ball's angle to the new average reflection angle
     angle = averageReflectionAngle;
 
-    qDebug() << angle;
+    // qDebug() << angle;
     // Move the ball slightly away from the walls to avoid repeated collisions
     qreal epsilon = 1.0;
     qreal reflectionX = x() + epsilon * qCos(qDegreesToRadians(averageReflectionAngle));
