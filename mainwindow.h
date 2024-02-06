@@ -11,6 +11,7 @@
 #include <QTimer>
 #include <QElapsedTimer>
 #include <QLabel>
+#include <QLineEdit>
 #include "gamescene.h"
 
 QT_BEGIN_NAMESPACE
@@ -46,7 +47,10 @@ private:
     QElapsedTimer *elapsedTimer;
     QTimer *fpsTimer;
     QLabel *fpsLabel;
+    QLineEdit *txtBallPosX, *txtBallPosY, *txtBallSpeed, *txtBallAngle, *txtBallEndPosX, *txtBallEndPosY, *txtBallStartAngle, *txtBallEndAngle, *txtBallStartSpeed, *txtBallEndSpeed, *txtNumBalls;
     int frameCount;
+
+    void initializeInput();
 
 };
 #endif // MAINWINDOW_H

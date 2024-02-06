@@ -6,12 +6,14 @@
 #include "QGraphicsLineItem"
 #include <QPen>
 #include <QColor>
+#include <QDebug>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    ui->setupUi(this);
 
+    ui->setupUi(this);
+    initializeInput();
     scene = new GameScene(this);
     ui->graphicsView->setScene(scene);
 
@@ -82,30 +84,128 @@ void MainWindow::paintEvent(QPaintEvent *event)
     ++frameCount;
 }
 
-int numBalls;
-qreal speed, angle, startPosX, startPosY;
 
+
+int numBalls;
+qreal speed, angle, startPosX, startPosY, endPosX, endPosY, endAngle, endVel;
 void MainWindow::on_btnAddBall_clicked()
 {
     // variables, starting position X and Y, number of balls, ball speed, ball direction
-    startPosX = ui->txtBallPosX->text().toInt();
-    startPosY = ui->txtBallPosY->text().toInt();
-    //numBalls = ui->txtNumBalls->text().toInt();
-    speed = ui->txtBallSpeed->text().toDouble();
-    angle = ui->txtBallAngle->text().toDouble();
-    numBalls = 1;
+    int currentIndex = ui->comboBox->currentIndex();
+    switch(currentIndex){
+        case 0:
+            qDebug() << "index:" << currentIndex;
+            startPosX = txtBallPosX->text().toDouble();
+            qDebug() << "BallX:" << startPosX;
+            startPosY = txtBallPosY->text().toDouble();
+            qDebug() << "BallY:" << startPosY;
+            //numBalls = ui->txtNumBalls->text().toInt();
+            speed = txtBallStartSpeed->text().toDouble();
+            qDebug() << "speed:" << speed;
+            angle = txtBallStartAngle->text().toDouble();
+            qDebug() << "angle:" << angle;
+            numBalls = 1;
+            for (int i = 0; i < numBalls; ++i) {
+                Ball *ball = new Ball(startPosX, startPosY, speed, angle);
+                scene->addItem(ball);
+            }
+            txtBallPosX->setText("");
+            txtBallPosY->setText("");
+            //ui->txtNumBalls->setText("");
+            txtBallStartSpeed->setText("");
+            txtBallStartAngle->setText("");
+            break;
+        case 1:
+            qDebug() << "index:" << currentIndex;
+            startPosX = txtBallPosX->text().toDouble();
+            qDebug() << "StartX:" << startPosX;
+            startPosY = txtBallPosY->text().toDouble();
+            qDebug() << "BallY:" << startPosY;
 
-    for (int i = 0; i < numBalls; ++i) {
-        Ball *ball = new Ball(startPosX, startPosY, speed, angle);
-        scene->addItem(ball);
+            endPosX = txtBallEndPosX->text().toDouble();
+            qDebug() << "endX:" << endPosX;
+            endPosY = txtBallEndPosY->text().toDouble();
+            qDebug() << "endY:" << endPosY;
+
+
+            speed = txtBallStartSpeed->text().toDouble();
+            qDebug() << "speed:" << speed;
+            angle = txtBallStartAngle->text().toDouble();
+            qDebug() << "angle:" << angle;
+            numBalls = txtNumBalls->text().toInt();
+            for (int i = 0; i < numBalls; ++i) {
+                Ball *ball = new Ball(startPosX, startPosY, speed, angle);
+                scene->addItem(ball);
+            }
+            txtBallPosX->setText("");
+            txtBallPosY->setText("");
+            txtBallEndPosX->setText("");
+            txtBallEndPosY->setText("");
+            txtBallStartSpeed->setText("");
+            txtBallStartAngle->setText("");
+            break;
+        case 2:
+            qDebug() << "index:" << currentIndex;
+            startPosX = txtBallPosX->text().toDouble();
+            qDebug() << "StartX:" << startPosX;
+            startPosY = txtBallPosY->text().toDouble();
+            qDebug() << "BallY:" << startPosY;
+
+
+            speed = txtBallStartSpeed->text().toDouble();
+            qDebug() << "speed:" << speed;
+            angle = txtBallStartAngle->text().toDouble();
+            qDebug() << "angle:" << angle;
+            endAngle = txtBallEndAngle->text().toDouble();
+            qDebug() << "endangle:" << endAngle;
+
+            numBalls = txtNumBalls->text().toInt();
+            for (int i = 0; i < numBalls; ++i) {
+                Ball *ball = new Ball(startPosX, startPosY, speed, angle);
+                scene->addItem(ball);
+            }
+            txtBallPosX->setText("");
+            txtBallPosY->setText("");
+            txtBallStartSpeed->setText("");
+            txtBallStartAngle->setText("");
+            txtBallEndAngle->setText("");
+            break;
+        case 3:
+            qDebug() << "index:" << currentIndex;
+            startPosX = txtBallPosX->text().toDouble();
+            qDebug() << "StartX:" << startPosX;
+            startPosY = txtBallPosY->text().toDouble();
+            qDebug() << "BallY:" << startPosY;
+
+
+            speed = txtBallStartSpeed->text().toDouble();
+            qDebug() << "speed:" << speed;
+            endVel = txtBallEndSpeed->text().toDouble();
+            qDebug() << "endspeed:" << endVel;
+            angle = txtBallStartAngle->text().toDouble();
+            qDebug() << "angle:" << angle;
+
+
+            numBalls = txtNumBalls->text().toInt();
+            for (int i = 0; i < numBalls; ++i) {
+                Ball *ball = new Ball(startPosX, startPosY, speed, angle);
+                scene->addItem(ball);
+            }
+            txtBallPosX->setText("");
+            txtBallPosY->setText("");
+            txtBallStartSpeed->setText("");
+            txtBallStartAngle->setText("");
+            txtBallEndSpeed->setText("");
+            break;
+
     }
+
+
+
+
     // clearing of input fields
 
-    ui->txtBallPosX->setText("");
-    ui->txtBallPosY->setText("");
-    //ui->txtNumBalls->setText("");
-    ui->txtBallSpeed->setText("");
-    ui->txtBallAngle->setText("");
+
 
 }
 
@@ -144,7 +244,7 @@ void MainWindow::on_comboBox_currentIndexChanged(int index)
         delete item;
     }
     QLabel *label;
-    QLineEdit *lineEdit;
+
     QPushButton *button;
 
 
@@ -155,29 +255,33 @@ void MainWindow::on_comboBox_currentIndexChanged(int index)
         ui->ballGrid->addWidget(label, 0, 0);
 
         label = new QLabel("Starting position (X)");
-        lineEdit = new QLineEdit();
+        txtBallPosX = new QLineEdit();
+         txtBallPosX->setObjectName("txtBallPosX");
         ui->ballGrid->addWidget(label, 1, 0);
-        ui->ballGrid->addWidget(lineEdit, 1, 1);
-        lineEdit->setObjectName("txtBallPosX");
+        ui->ballGrid->addWidget(txtBallPosX, 1, 1);
+
 
         label = new QLabel("Starting position (Y)");
-        lineEdit = new QLineEdit();
+       txtBallPosY = new QLineEdit();
+        txtBallPosY->setObjectName("txtBallPosY");
         ui->ballGrid->addWidget(label, 2, 0);
-        ui->ballGrid->addWidget(lineEdit, 2, 1);
-        lineEdit->setObjectName("txtBallPosY");
+        ui->ballGrid->addWidget(txtBallPosY, 2, 1);
+
 
 
         label = new QLabel("Ball velocity (p/s)");
-        lineEdit = new QLineEdit();
+        txtBallStartSpeed = new QLineEdit();
+        txtBallStartSpeed->setObjectName("txtBallStartSpeed");
         ui->ballGrid->addWidget(label, 3, 0);
-        ui->ballGrid->addWidget(lineEdit, 3, 1);
-        lineEdit->setObjectName("txtBallSpeed");
+        ui->ballGrid->addWidget(txtBallStartSpeed, 3, 1);
+
 
         label = new QLabel("Ball direction (Θ)");
-        lineEdit = new QLineEdit();
+        txtBallStartAngle = new QLineEdit();
+        txtBallStartAngle->setObjectName("txtBallStartAngle");
         ui->ballGrid->addWidget(label, 4, 0);
-        ui->ballGrid->addWidget(lineEdit, 4, 1);
-        lineEdit->setObjectName("txtBallAngle");
+        ui->ballGrid->addWidget(txtBallStartAngle, 4, 1);
+
 
         button = new QPushButton("Add Ball");
         ui->ballGrid->addWidget(button, 5, 0, 1, 2); // Span two columns
@@ -192,38 +296,55 @@ void MainWindow::on_comboBox_currentIndexChanged(int index)
         ui->ballGrid->addWidget(label, 0, 0);
 
         label = new QLabel("Number of balls (n)");
-        lineEdit = new QLineEdit();
+        txtNumBalls = new QLineEdit();
+        txtNumBalls->setObjectName("txtNumBalls");
         ui->ballGrid->addWidget(label, 1, 0);
-        ui->ballGrid->addWidget(lineEdit, 1, 1);
-        lineEdit->setObjectName("txtNumBalls");
+        ui->ballGrid->addWidget(txtNumBalls, 1, 1);
+
 
         label = new QLabel("Starting Position (X)");
-        lineEdit = new QLineEdit();
+        txtBallPosX = new QLineEdit();
+        txtBallPosX->setObjectName("txtBallPosX");
         ui->ballGrid->addWidget(label, 2, 0);
-        ui->ballGrid->addWidget(lineEdit, 2, 1);
-        lineEdit->setObjectName("txtBallPosX");
+        ui->ballGrid->addWidget(txtBallPosX, 2, 1);
+
 
         label = new QLabel("Starting Position (Y)");
-        lineEdit = new QLineEdit();
+        txtBallPosY = new QLineEdit();
+        txtBallPosY->setObjectName("txtBallPosY");
         ui->ballGrid->addWidget(label, 3, 0);
-        ui->ballGrid->addWidget(lineEdit, 3, 1);
-        lineEdit->setObjectName("txtBallPosY");
+        ui->ballGrid->addWidget(txtBallPosY, 3, 1);
+
 
         label = new QLabel("Ending Position (X)");
-        lineEdit = new QLineEdit();
+        txtBallEndPosX = new QLineEdit();
+        txtBallEndPosX->setObjectName("txtBallEndPosX");
         ui->ballGrid->addWidget(label, 4, 0);
-        ui->ballGrid->addWidget(lineEdit, 4, 1);
-        lineEdit->setObjectName("txtBallEndPosX");
+        ui->ballGrid->addWidget(txtBallEndPosX, 4, 1);
+
 
         label = new QLabel("Ending Position (Y)");
-        lineEdit = new QLineEdit();
+        txtBallEndPosY = new QLineEdit();
+        txtBallEndPosY->setObjectName("txtBallEndPosY");
         ui->ballGrid->addWidget(label, 5, 0);
-        ui->ballGrid->addWidget(lineEdit, 5, 1);
-        lineEdit->setObjectName("txtBallEndPosY");
+        ui->ballGrid->addWidget(txtBallEndPosY, 5, 1);
+
+        label = new QLabel("Angle (Θ)");
+        txtBallStartAngle = new QLineEdit();
+        txtBallStartAngle->setObjectName("txtBallStartAngle");
+        ui->ballGrid->addWidget(label, 6, 0);
+        ui->ballGrid->addWidget(txtBallStartAngle , 6, 1);
+
+        label = new QLabel("Velocity (p/s)");
+        txtBallStartSpeed = new QLineEdit();
+        txtBallStartSpeed->setObjectName("txtBallStartSpeed");
+        ui->ballGrid->addWidget(label, 7, 0);
+        ui->ballGrid->addWidget(txtBallStartSpeed, 7, 1);
+
 
         button = new QPushButton("Add Ball");
-        ui->ballGrid->addWidget(button, 6, 0, 1, 2); // Span two columns
-        lineEdit->setObjectName("btnAddBall");
+        ui->ballGrid->addWidget(button, 8, 0, 1, 2); // Span two columns
+        button->setObjectName("btnAddBall");
         connect(button, &QPushButton::clicked, this, &MainWindow::on_btnAddBall_clicked);
         break;
 
@@ -232,32 +353,48 @@ void MainWindow::on_comboBox_currentIndexChanged(int index)
         ui->ballGrid->addWidget(label, 0, 0);
 
         label = new QLabel("Number of balls (n)");
-        lineEdit = new QLineEdit();
+        txtNumBalls = new QLineEdit();
+        txtNumBalls->setObjectName("txtNumBalls");
         ui->ballGrid->addWidget(label, 1, 0);
-        ui->ballGrid->addWidget(lineEdit, 1, 1);
+        ui->ballGrid->addWidget(txtNumBalls, 1, 1);
+
 
         label = new QLabel("Starting Position (X)");
-        lineEdit = new QLineEdit();
+        txtBallPosX = new QLineEdit();
+        txtBallPosX->setObjectName("txtBallPosX");
         ui->ballGrid->addWidget(label, 2, 0);
-        ui->ballGrid->addWidget(lineEdit, 2, 1);
+        ui->ballGrid->addWidget(txtBallPosX, 2, 1);
+
 
         label = new QLabel("Starting Position (Y)");
-        lineEdit = new QLineEdit();
+        txtBallPosY = new QLineEdit();
+        txtBallPosY->setObjectName("txtBallPosY");
         ui->ballGrid->addWidget(label, 3, 0);
-        ui->ballGrid->addWidget(lineEdit, 3, 1);
+        ui->ballGrid->addWidget(txtBallPosY, 3, 1);
+
 
         label = new QLabel("Starting Angle (Θ)");
-        lineEdit = new QLineEdit();
+        txtBallStartAngle = new QLineEdit();
+        txtBallStartAngle->setObjectName("txtBallStartAngle");
         ui->ballGrid->addWidget(label, 4, 0);
-        ui->ballGrid->addWidget(lineEdit, 4, 1);
+        ui->ballGrid->addWidget(txtBallStartAngle , 4, 1);
+
 
         label = new QLabel("Ending Angle (Θ)");
-        lineEdit = new QLineEdit();
+        txtBallEndAngle = new QLineEdit();
+        txtBallEndAngle->setObjectName("txtBallEndAngle");
         ui->ballGrid->addWidget(label, 5, 0);
-        ui->ballGrid->addWidget(lineEdit, 5, 1);
+        ui->ballGrid->addWidget(txtBallEndAngle, 5, 1);
+
+        label = new QLabel("Velocity (p/s)");
+        txtBallStartSpeed = new QLineEdit();
+        txtBallStartSpeed->setObjectName("txtBallStartSpeed");
+        ui->ballGrid->addWidget(label, 6, 0);
+        ui->ballGrid->addWidget(txtBallStartSpeed, 6, 1);
+
 
         button = new QPushButton("Add Ball");
-        ui->ballGrid->addWidget(button, 6, 0, 1, 2); // Span two columns
+        ui->ballGrid->addWidget(button, 7, 0, 1, 2); // Span two columns
         connect(button, &QPushButton::clicked, this, &MainWindow::on_btnAddBall_clicked);
         break;
 
@@ -266,34 +403,96 @@ void MainWindow::on_comboBox_currentIndexChanged(int index)
         ui->ballGrid->addWidget(label, 0, 0);
 
         label = new QLabel("Number of balls (n)");
-        lineEdit = new QLineEdit();
+        txtNumBalls = new QLineEdit();
         ui->ballGrid->addWidget(label, 1, 0);
-        ui->ballGrid->addWidget(lineEdit, 1, 1);
+        ui->ballGrid->addWidget(txtNumBalls, 1, 1);
+        txtNumBalls->setObjectName("txtNumBalls");
 
         label = new QLabel("Starting Position (X)");
-        lineEdit = new QLineEdit();
+        txtBallPosX = new QLineEdit();
         ui->ballGrid->addWidget(label, 2, 0);
-        ui->ballGrid->addWidget(lineEdit, 2, 1);
+        ui->ballGrid->addWidget(txtBallPosX, 2, 1);
+        txtBallPosX->setObjectName("txtBallPosX");
 
         label = new QLabel("Starting Position (Y)");
-        lineEdit = new QLineEdit();
+        txtBallPosY = new QLineEdit();
         ui->ballGrid->addWidget(label, 3, 0);
-        ui->ballGrid->addWidget(lineEdit, 3, 1);
+        ui->ballGrid->addWidget(txtBallPosY, 3, 1);
+        txtBallPosY->setObjectName("txtBallPosY");
 
         label = new QLabel("Starting velocity (p/s)");
-        lineEdit = new QLineEdit();
+        txtBallStartSpeed = new QLineEdit();
         ui->ballGrid->addWidget(label, 4, 0);
-        ui->ballGrid->addWidget(lineEdit, 4, 1);
+        ui->ballGrid->addWidget(txtBallStartSpeed, 4, 1);
+        txtBallStartSpeed->setObjectName("txtBallStartSpeed");
 
         label = new QLabel("Ending velocity (p/s)");
-        lineEdit = new QLineEdit();
+        txtBallEndSpeed = new QLineEdit();
         ui->ballGrid->addWidget(label, 5, 0);
-        ui->ballGrid->addWidget(lineEdit, 5, 1);
+        ui->ballGrid->addWidget(txtBallEndSpeed, 5, 1);
+        txtBallEndSpeed->setObjectName("txtBallEndSpeed");
 
+        label = new QLabel("Angle (Θ)");
+        txtBallStartAngle = new QLineEdit();
+        txtBallStartAngle->setObjectName("txtBallStartAngle");
+        ui->ballGrid->addWidget(label, 6, 0);
+        ui->ballGrid->addWidget(txtBallStartAngle, 6, 1);
         button = new QPushButton("Add Ball");
-        ui->ballGrid->addWidget(button, 6, 0, 1, 2); // Span two columns
+        ui->ballGrid->addWidget(button, 7, 0, 1, 2); // Span two columns
         connect(button, &QPushButton::clicked, this, &MainWindow::on_btnAddBall_clicked);
         break;
     }
+}
+
+void MainWindow::initializeInput()
+{
+    QLayoutItem *item;
+    QLabel *label;
+    QPushButton *button;
+
+    while ((item = ui->ballGrid->takeAt(0)) != nullptr) {
+        if (item->widget()) {
+            delete item->widget();
+        }
+        delete item;
+    }
+    label = new QLabel("Ball settings");
+    ui->ballGrid->addWidget(label, 0, 0);
+
+    label = new QLabel("Starting position (X)");
+    txtBallPosX = new QLineEdit();
+    txtBallPosX->setObjectName("txtBallPosX");
+    ui->ballGrid->addWidget(label, 1, 0);
+    ui->ballGrid->addWidget(txtBallPosX, 1, 1);
+
+
+    label = new QLabel("Starting position (Y)");
+    txtBallPosY = new QLineEdit();
+    txtBallPosY->setObjectName("txtBallPosY");
+    ui->ballGrid->addWidget(label, 2, 0);
+    ui->ballGrid->addWidget(txtBallPosY, 2, 1);
+
+
+
+    label = new QLabel("Ball velocity (p/s)");
+    txtBallStartSpeed = new QLineEdit();
+    txtBallStartSpeed->setObjectName("txtBallStartSpeed");
+    ui->ballGrid->addWidget(label, 3, 0);
+    ui->ballGrid->addWidget(txtBallStartSpeed, 3, 1);
+
+
+    label = new QLabel("Ball direction (Θ)");
+    txtBallStartAngle = new QLineEdit();
+    txtBallStartAngle->setObjectName("txtBallStartAngle");
+    ui->ballGrid->addWidget(label, 4, 0);
+    ui->ballGrid->addWidget(txtBallStartAngle, 4, 1);
+
+
+    button = new QPushButton("Add Ball");
+    ui->ballGrid->addWidget(button, 5, 0, 1, 2); // Span two columns
+
+
+    button->setObjectName("btnAddBall");
+    connect(button, &QPushButton::clicked, this, &MainWindow::on_btnAddBall_clicked);
 }
 
