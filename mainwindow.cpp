@@ -73,7 +73,7 @@ MainWindow::~MainWindow()
 void MainWindow::displayFPS()
 {
     double fps = scene->getFPS();
-    fpsLabel->setText("r: " + QString::number(fps, 'f', 1));
+    fpsLabel->setText(QString::number(fps, 'f', 1));
 }
 
 void MainWindow::paintEvent(QPaintEvent *event)
