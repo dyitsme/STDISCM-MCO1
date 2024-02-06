@@ -28,26 +28,19 @@
     <property name="geometry">
      <rect>
       <x>1300</x>
-      <y>40</y>
+      <y>70</y>
       <width>191</width>
       <height>241</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="ballGrid">
-     <item row="3" column="0">
-      <widget class="QLabel" name="label_6">
+     <property name="verticalSpacing">
+      <number>12</number>
+     </property>
+     <item row="5" column="0" colspan="2">
+      <widget class="QPushButton" name="btnAddBall">
        <property name="text">
-        <string>Number of balls (n)</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QLineEdit" name="txtBallPosY"/>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_4">
-       <property name="text">
-        <string>Starting position (X)</string>
+        <string>Add Ball</string>
        </property>
       </widget>
      </item>
@@ -61,35 +54,25 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="0">
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="txtBallPosY"/>
+     </item>
+     <item row="3" column="0">
       <widget class="QLabel" name="label_7">
        <property name="text">
         <string>Ball velocity (p/s)</string>
        </property>
       </widget>
      </item>
-     <item row="5" column="1">
-      <widget class="QLineEdit" name="txtBallAngle"/>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Starting position (X)</string>
+       </property>
+      </widget>
      </item>
      <item row="4" column="1">
-      <widget class="QLineEdit" name="txtBallSpeed"/>
-     </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="label_8">
-       <property name="text">
-        <string>Ball direction (Θ)</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="QLineEdit" name="txtNumBalls"/>
-     </item>
-     <item row="6" column="0" colspan="2">
-      <widget class="QPushButton" name="btnAddBall">
-       <property name="text">
-        <string>Add Ball</string>
-       </property>
-      </widget>
+      <widget class="QLineEdit" name="txtBallAngle"/>
      </item>
      <item row="0" column="0">
       <widget class="QLabel" name="label_10">
@@ -102,6 +85,16 @@
         <string>Ball settings</string>
        </property>
       </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="label_8">
+       <property name="text">
+        <string>Ball direction (Θ)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLineEdit" name="txtBallSpeed"/>
      </item>
     </layout>
    </widget>
@@ -204,6 +197,36 @@
     <property name="text">
      <string>FPS:</string>
     </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox">
+    <property name="geometry">
+     <rect>
+      <x>1300</x>
+      <y>40</y>
+      <width>101</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Single Ball</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Multiple #1</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Multiple #2</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Multiple #3</string>
+     </property>
+    </item>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

@@ -36,6 +36,8 @@ private slots:
 
     void on_btnAddWall_clicked();
 
+    void on_comboBox_currentIndexChanged(int index);
+
 private:
     Ui::MainWindow *ui;
 
