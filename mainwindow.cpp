@@ -94,6 +94,7 @@ void MainWindow::on_btnAddBall_clicked()
     int currentIndex = ui->comboBox->currentIndex();
     switch(currentIndex){
         case 0:
+        {
             qDebug() << "index:" << currentIndex;
             startPosX = txtBallPosX->text().toDouble();
             qDebug() << "BallX:" << startPosX;
@@ -115,7 +116,9 @@ void MainWindow::on_btnAddBall_clicked()
             txtBallStartSpeed->setText("");
             txtBallStartAngle->setText("");
             break;
-        case 1:
+        }
+        case 1: // spawn balls within range of position
+        {
             qDebug() << "index:" << currentIndex;
             startPosX = txtBallPosX->text().toDouble();
             qDebug() << "StartX:" << startPosX;
@@ -133,8 +136,17 @@ void MainWindow::on_btnAddBall_clicked()
             angle = txtBallStartAngle->text().toDouble();
             qDebug() << "angle:" << angle;
             numBalls = txtNumBalls->text().toInt();
+            //calculate the range
+
+            qreal deltaX = (endPosX - startPosX) / (numBalls + 1);
+            qreal deltaY = (endPosY - startPosY) / (numBalls + 1);
+
+
             for (int i = 0; i < numBalls; ++i) {
-                Ball *ball = new Ball(startPosX, startPosY, speed, angle);
+                qreal currentPosX = startPosX + i * deltaX;
+                qreal currentPosY = startPosY + i * deltaY;
+
+                Ball *ball = new Ball(currentPosX, currentPosY, speed, angle);
                 scene->addItem(ball);
             }
             txtBallPosX->setText("");
@@ -144,7 +156,9 @@ void MainWindow::on_btnAddBall_clicked()
             txtBallStartSpeed->setText("");
             txtBallStartAngle->setText("");
             break;
-        case 2:
+        }
+        case 2: // spawn balls within range of angles
+        {
             qDebug() << "index:" << currentIndex;
             startPosX = txtBallPosX->text().toDouble();
             qDebug() << "StartX:" << startPosX;
@@ -160,8 +174,13 @@ void MainWindow::on_btnAddBall_clicked()
             qDebug() << "endangle:" << endAngle;
 
             numBalls = txtNumBalls->text().toInt();
+
+            //calculate the range
+
+            qreal deltaAngle = (endAngle - angle) / (numBalls + 1);
             for (int i = 0; i < numBalls; ++i) {
-                Ball *ball = new Ball(startPosX, startPosY, speed, angle);
+                qreal newAngle = deltaAngle + i * deltaAngle;
+                Ball *ball = new Ball(startPosX, startPosY, speed, newAngle);
                 scene->addItem(ball);
             }
             txtBallPosX->setText("");
@@ -170,7 +189,9 @@ void MainWindow::on_btnAddBall_clicked()
             txtBallStartAngle->setText("");
             txtBallEndAngle->setText("");
             break;
-        case 3:
+        }
+        case 3: // spawn balls within range of velocities
+        {
             qDebug() << "index:" << currentIndex;
             startPosX = txtBallPosX->text().toDouble();
             qDebug() << "StartX:" << startPosX;
@@ -187,8 +208,11 @@ void MainWindow::on_btnAddBall_clicked()
 
 
             numBalls = txtNumBalls->text().toInt();
+            // calculate range
+            qreal deltaVel = (endVel - speed) / (numBalls + 1);
             for (int i = 0; i < numBalls; ++i) {
-                Ball *ball = new Ball(startPosX, startPosY, speed, angle);
+                qreal newVel = speed + i * deltaVel;
+                Ball *ball = new Ball(startPosX, startPosY, newVel, angle);
                 scene->addItem(ball);
             }
             txtBallPosX->setText("");
@@ -197,6 +221,7 @@ void MainWindow::on_btnAddBall_clicked()
             txtBallStartAngle->setText("");
             txtBallEndSpeed->setText("");
             break;
+        }
 
     }
 
