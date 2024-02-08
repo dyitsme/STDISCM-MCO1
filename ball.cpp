@@ -13,6 +13,7 @@ Ball::Ball(qreal startPosX, qreal startPosY, qreal spd, qreal direction)
     lastTime = QTime::currentTime();
 }
 
+
 QRectF Ball::boundingRect() const
 {
     return QRect(startingPosX, startingPosY, 10, 10);
