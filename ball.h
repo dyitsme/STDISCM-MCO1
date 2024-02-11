@@ -21,8 +21,6 @@ public:
                QWidget *widget) override;
 public slots:
     void run();
-
-protected slots:
     void compute();
 
 protected slots:

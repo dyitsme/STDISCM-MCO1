@@ -28,10 +28,9 @@ void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 
 void Ball::run()
 {
-    timer = new QTimer(this);
-    QObject::connect(timer, &QTimer::timeout, this, &Ball::compute);
-    timer->start(10);
-
+    // timer = new QTimer(this);
+    // QObject::connect(timer, &QTimer::timeout, this, &Ball::compute);
+    // timer->start(10);
 }
 
 qreal mdx, mdy;
