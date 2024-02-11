@@ -9,7 +9,7 @@
 #include <wall.h>
 #include <QTime>
 
-class Ball : public QGraphicsItem
+class Ball : public QGraphicsObject
 {
 public:
     Ball(qreal startPosX, qreal startPosY, qreal speed, qreal angle);
