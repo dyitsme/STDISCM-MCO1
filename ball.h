@@ -8,6 +8,8 @@
 #include <QtMath>
 #include <wall.h>
 #include <QTime>
+#include <QTimer>
+#include <QThread>
 
 class Ball : public QGraphicsObject
 {
@@ -17,6 +19,12 @@ public:
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                QWidget *widget) override;
+public slots:
+    void run();
+
+protected slots:
+    void compute();
+
 protected slots:
     void advance(int step) override;
     void checkCollision();
@@ -30,6 +38,7 @@ private:
     qreal speed = 0;
 
     QTime lastTime;
+    QTimer *timer;
     int frames;
 
 };

@@ -26,6 +26,32 @@ void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 
 }
 
+void Ball::run()
+{
+    timer = new QTimer(this);
+    QObject::connect(timer, &QTimer::timeout, this, &Ball::compute);
+    timer->start(10);
+
+}
+
+qreal mdx, mdy;
+void Ball::compute()
+{
+    // QThread::currentThread()->msleep(500);
+
+    // checkCollision();
+
+    mdx += speed*qCos(qDegreesToRadians(angle));
+    mdy += speed*qSin(qDegreesToRadians(angle));
+
+    qInfo()  << QThread::currentThread();
+    // qInfo() << "dx: " << mdx << QThread::currentThread();
+    // qInfo() << "dy: " << mdy << QThread::currentThread();
+
+    QThread::currentThread()->msleep(500);
+    setPos(mapToParent(mdx, mdy));
+}
+
 void Ball::advance(int step)
 {
     if (!step) return;

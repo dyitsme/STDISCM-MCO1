@@ -26,10 +26,10 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     // moves the balls and computes for the fps of the scene, is dependent on the timer
-    timer = new QTimer(scene);
-    QObject::connect(timer, &QTimer::timeout, scene, &GameScene::advance);
-    QObject::connect(timer, &QTimer::timeout, scene, &GameScene::computeFPS);
-    timer->start(10);
+    // timer = new QTimer(scene);
+    // QObject::connect(timer, &QTimer::timeout, scene, &GameScene::advance);
+    // QObject::connect(timer, &QTimer::timeout, scene, &GameScene::computeFPS);
+    // timer->start(10);
 
     fpsTimer = new QTimer(this);
     QObject::connect(fpsTimer, &QTimer::timeout, this, &MainWindow::displayFPS);
@@ -65,6 +65,8 @@ MainWindow::MainWindow(QWidget *parent)
     scene->addItem(bottomwall);
     scene->addItem(leftwall);
     scene->addItem(rightwall);
+
+    threadManager = new ThreadManager(this);
 }
 
 MainWindow::~MainWindow()
@@ -92,6 +94,11 @@ void MainWindow::on_btnAddBall_clicked()
 {
     // variables, starting position X and Y, number of balls, ball speed, ball direction
     int currentIndex = ui->comboBox->currentIndex();
+
+    // to be deleted for testing purposes only *************************
+    QThread::currentThread()->setObjectName("Main Thread");
+    qInfo() << QThread::currentThread();
+    // *************************************************************
     switch(currentIndex){
         case 0:
         {
@@ -142,13 +149,19 @@ void MainWindow::on_btnAddBall_clicked()
             qreal deltaY = (endPosY - startPosY) / (numBalls + 1);
 
 
+            QVector<Ball*> balls;
+
             for (int i = 0; i < numBalls; ++i) {
                 qreal currentPosX = startPosX + i * deltaX;
                 qreal currentPosY = startPosY + i * deltaY;
 
                 Ball *ball = new Ball(currentPosX, currentPosY, speed, angle);
+                balls.append(ball);
                 scene->addItem(ball);
             }
+
+            threadManager->useExistingOrCreateThread(balls);
+
             txtBallPosX->setText("");
             txtBallPosY->setText("");
             txtBallEndPosX->setText("");
@@ -177,12 +190,18 @@ void MainWindow::on_btnAddBall_clicked()
 
             //calculate the range
 
+            QVector<Ball*> balls;
             qreal deltaAngle = (endAngle - angle) / (numBalls + 1);
             for (int i = 0; i < numBalls; ++i) {
                 qreal newAngle = deltaAngle + i * deltaAngle;
                 Ball *ball = new Ball(startPosX, startPosY, speed, newAngle);
+
                 scene->addItem(ball);
+                balls.append(ball);
             }
+
+            threadManager->useExistingOrCreateThread(balls);
+
             txtBallPosX->setText("");
             txtBallPosY->setText("");
             txtBallStartSpeed->setText("");

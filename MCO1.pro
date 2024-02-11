@@ -13,12 +13,14 @@ SOURCES += \
     gamescene.cpp \
     main.cpp \
     mainwindow.cpp \
+    threadmanager.cpp \
     wall.cpp
 
 HEADERS += \
     ball.h \
     gamescene.h \
     mainwindow.h \
+    threadmanager.h \
     wall.h
 
 FORMS += \

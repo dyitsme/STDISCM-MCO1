@@ -13,6 +13,7 @@
 #include <QLabel>
 #include <QLineEdit>
 #include "gamescene.h"
+#include "threadmanager.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -41,7 +42,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-
+    ThreadManager *threadManager;
     GameScene *scene;
     QTimer *timer;
     QElapsedTimer *elapsedTimer;
