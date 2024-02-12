@@ -26,11 +26,12 @@ void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 
 }
 
+
 void Ball::run()
 {
-    // timer = new QTimer(this);
-    // QObject::connect(timer, &QTimer::timeout, this, &Ball::compute);
-    // timer->start(10);
+    timer = new QTimer(this);
+    QObject::connect(timer, &QTimer::timeout, this, &Ball::compute);
+    timer->start(10);
 }
 
 qreal mdx, mdy;
@@ -43,11 +44,11 @@ void Ball::compute()
     mdx += speed*qCos(qDegreesToRadians(angle));
     mdy += speed*qSin(qDegreesToRadians(angle));
 
-    qInfo()  << QThread::currentThread();
-    // qInfo() << "dx: " << mdx << QThread::currentThread();
-    // qInfo() << "dy: " << mdy << QThread::currentThread();
+    // qInfo() << QThread::currentThread();
+    qInfo() << "dx: " << mdx << QThread::currentThread();
+    qInfo() << "dy: " << mdy << QThread::currentThread();
 
-    QThread::currentThread()->msleep(500);
+    // QThread::currentThread()->msleep(500);
     setPos(mapToParent(mdx, mdy));
 }
 
@@ -198,4 +199,21 @@ QPainterPath Ball::shape() const
     QPainterPath path;
     path.addEllipse(boundingRect());
     return path;
+}
+
+qreal Ball::getStartPosX()
+{
+    return startingPosX;
+}
+qreal Ball::getStartPosY()
+{
+    return startingPosY;
+}
+qreal Ball::getAngle()
+{
+    return angle;
+}
+qreal Ball::getSpeed()
+{
+    return speed;
 }

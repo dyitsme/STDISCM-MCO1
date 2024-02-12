@@ -4,25 +4,26 @@
 #include <QObject>
 #include <QThread>
 #include <QTimer>
-#include "ball.h"
+#include <QDebug>
+#include "worker.h"
 
 class ThreadManager : public QObject
 {
     Q_OBJECT
 public:
     explicit ThreadManager(QObject *parent = nullptr);
-    void useExistingOrCreateThread(QVector<Ball*> workers);
-
-protected:
-
+    void useExistingOrCreateThread(QVector<Worker*> workers);
+    void startTimer();
+    void startParentThread();
 
 
 private:
     int maxSize;
     int currSize;
-    QVector<QThread> threadArray;
     QThread *currThread;
     QTimer *timer;
+    QVector<Worker*> allWorkers;
+    QVector <QThread*> threads;
 
 };
 

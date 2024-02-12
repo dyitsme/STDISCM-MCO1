@@ -14,14 +14,16 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     threadmanager.cpp \
-    wall.cpp
+    wall.cpp \
+    worker.cpp
 
 HEADERS += \
     ball.h \
     gamescene.h \
     mainwindow.h \
     threadmanager.h \
-    wall.h
+    wall.h \
+    worker.h
 
 FORMS += \
     mainwindow.ui

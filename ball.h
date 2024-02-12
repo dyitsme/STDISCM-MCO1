@@ -19,6 +19,16 @@ public:
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                QWidget *widget) override;
+    qreal getStartPosX();
+    qreal getStartPosY();
+    qreal getAngle();
+    qreal getSpeed();
+
+    qreal startingPosX = 0;
+    qreal startingPosY = 0;
+    qreal angle = 0;
+    qreal speed = 0;
+
 public slots:
     void run();
     void compute();
@@ -30,10 +40,10 @@ protected slots:
     void DoCollision(const QList<QLineF>& walls);
 
 private:
-    qreal startingPosX = 0;
-    qreal startingPosY = 0;
-    qreal angle = 0;
-    qreal speed = 0;
+    // qreal startingPosX = 0;
+    // qreal startingPosY = 0;
+    // qreal angle = 0;
+    // qreal speed = 0;
 
     QTime lastTime;
     QTimer *timer;

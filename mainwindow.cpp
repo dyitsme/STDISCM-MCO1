@@ -66,7 +66,8 @@ MainWindow::MainWindow(QWidget *parent)
     scene->addItem(leftwall);
     scene->addItem(rightwall);
 
-    threadManager = new ThreadManager(this);
+    threadManager = new ThreadManager();
+    // threadManager->startTimer();
 }
 
 MainWindow::~MainWindow()
@@ -149,18 +150,18 @@ void MainWindow::on_btnAddBall_clicked()
             qreal deltaY = (endPosY - startPosY) / (numBalls + 1);
 
 
-            QVector<Ball*> balls;
+            // QVector<Ball*> balls;
 
             for (int i = 0; i < numBalls; ++i) {
                 qreal currentPosX = startPosX + i * deltaX;
                 qreal currentPosY = startPosY + i * deltaY;
 
                 Ball *ball = new Ball(currentPosX, currentPosY, speed, angle);
-                balls.append(ball);
+                // balls.append(ball);
                 scene->addItem(ball);
             }
 
-            threadManager->useExistingOrCreateThread(balls);
+            // threadManager->useExistingOrCreateThread(workers);
 
             txtBallPosX->setText("");
             txtBallPosY->setText("");
@@ -191,16 +192,19 @@ void MainWindow::on_btnAddBall_clicked()
             //calculate the range
 
             QVector<Ball*> balls;
+            QVector<Worker*> workers;
+
             qreal deltaAngle = (endAngle - angle) / (numBalls + 1);
             for (int i = 0; i < numBalls; ++i) {
                 qreal newAngle = deltaAngle + i * deltaAngle;
                 Ball *ball = new Ball(startPosX, startPosY, speed, newAngle);
+                Worker *worker = new Worker(ball);
 
                 scene->addItem(ball);
-                balls.append(ball);
+                workers.append(worker);
             }
 
-            threadManager->useExistingOrCreateThread(balls);
+            threadManager->useExistingOrCreateThread(workers);
 
             txtBallPosX->setText("");
             txtBallPosY->setText("");

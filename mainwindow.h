@@ -15,6 +15,7 @@
 #include "gamescene.h"
 #include "threadmanager.h"
 
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
