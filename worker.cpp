@@ -25,5 +25,6 @@ void Worker::compute()
 
     // QThread::currentThread()->msleep(500);
 
-    ball->setPos(startingPosX + dx, startingPosY + dy);
+    // ball->setPos(startingPosX + dx, startingPosY + dy);
+    emit signalSetPos(this, startingPosX, startingPosY, dx, dy);
 }

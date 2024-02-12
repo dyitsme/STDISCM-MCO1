@@ -31,6 +31,10 @@ public:
     ~MainWindow();
     void paintEvent(QPaintEvent *event) override;
 
+
+public slots:
+    void updatePosition(Worker *worker, qreal startingPosX, qreal startingPosY, qreal dx, qreal dy);
+
 protected:
 
 private slots:
@@ -41,6 +45,7 @@ private slots:
 
     void on_comboBox_currentIndexChanged(int index);
 
+
 private:
     Ui::MainWindow *ui;
     ThreadManager *threadManager;
@@ -50,6 +55,7 @@ private:
     QTimer *fpsTimer;
     QLabel *fpsLabel;
     QLineEdit *txtBallPosX, *txtBallPosY, *txtBallSpeed, *txtBallAngle, *txtBallEndPosX, *txtBallEndPosY, *txtBallStartAngle, *txtBallEndAngle, *txtBallStartSpeed, *txtBallEndSpeed, *txtNumBalls;
+    QVector<Worker*> allWorkers;
     int frameCount;
 
     void initializeInput();

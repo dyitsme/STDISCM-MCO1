@@ -14,8 +14,8 @@ public:
     explicit ThreadManager(QObject *parent = nullptr);
     void useExistingOrCreateThread(QVector<Worker*> workers);
     void startTimer();
-    void startParentThread();
-
+public slots:
+    void updatePosition(Worker *worker, qreal startingPosX, qreal startingPosY, qreal dx, qreal dy);
 
 private:
     int maxSize;

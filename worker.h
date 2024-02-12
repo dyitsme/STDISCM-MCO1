@@ -18,11 +18,12 @@ public:
     qreal startingPosY = 0;
     qreal angle = 0;
     qreal speed = 0;
+    Ball *ball;
 
 signals:
+    void signalSetPos(Worker *worker, qreal startingPosX, qreal startingPosY, qreal dx, qreal dy);
 
 private:
-    Ball *ball;
 };
 
 #endif // WORKER_H

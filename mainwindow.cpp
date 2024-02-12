@@ -202,7 +202,10 @@ void MainWindow::on_btnAddBall_clicked()
 
                 scene->addItem(ball);
                 workers.append(worker);
+                // timer start
+                // timer end
             }
+            allWorkers.append(workers);
 
             threadManager->useExistingOrCreateThread(workers);
 
@@ -544,3 +547,7 @@ void MainWindow::initializeInput()
     connect(button, &QPushButton::clicked, this, &MainWindow::on_btnAddBall_clicked);
 }
 
+void MainWindow::updatePosition(Worker* worker, qreal startingPosX, qreal startingPosY, qreal dx, qreal dy)
+{
+    worker->ball->setPos(startingPosX+dx, startingPosY+dy);
+}
