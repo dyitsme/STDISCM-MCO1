@@ -11,13 +11,15 @@ ThreadManager::ThreadManager(QObject *parent)
 void ThreadManager::useExistingOrCreateThread(QVector<Worker*> workers)
 {
     timer = new QTimer();
-    if (workers.size() > 0) {
-        for (int i = 0; i < allWorkers.size(); i++) {
-            QObject::connect(allWorkers[i], &Worker::signalSetPos, this, &ThreadManager::updatePosition);
-        }
-    }
+    // if (workers.size() > 0) {
+    //     for (int i = 0; i < allWorkers.size(); i++) {
+    //         qInfo() << "info";
+    //         QObject::connect(allWorkers[i], &Worker::signalSetPos, this, &ThreadManager::updatePosition);
+    //     }
+    // }
 
     timer->start(500);
+
     for (int i = 0; i < workers.size(); i++)
     {
         if (currSize >= maxSize)
@@ -33,6 +35,9 @@ void ThreadManager::useExistingOrCreateThread(QVector<Worker*> workers)
 
         // QObject::connect(currThread, &QThread::started, workers[i], &Worker::compute);
         QObject::connect(timer, &QTimer::timeout, workers[i], &Worker::compute);
+        QObject::connect(workers[i], &Worker::signalSetPos, this, &ThreadManager::updatePosition);
+
+
         currSize++;
         // emit a signal that a worker has ran on that specific thread
 
@@ -41,7 +46,7 @@ void ThreadManager::useExistingOrCreateThread(QVector<Worker*> workers)
             currThread->start();
         }
     }
-    }
+}
 
 void ThreadManager::startTimer()
 {
@@ -66,5 +71,6 @@ void ThreadManager::startTimer()
 
 void ThreadManager::updatePosition(Worker *worker, qreal startingPosX, qreal startingPosY, qreal dx, qreal dy)
 {
+    qInfo() << "This thread: " << QThread::currentThread();
     worker->ball->setPos(startingPosX+dx, startingPosY+dy);
 }
