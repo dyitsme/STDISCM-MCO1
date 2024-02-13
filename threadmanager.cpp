@@ -8,6 +8,8 @@ ThreadManager::ThreadManager(QObject *parent)
     currThread = new QThread();
     timer = new QTimer();
     timer->start(10);
+
+
 }
 
 void ThreadManager::useExistingOrCreateThread(QVector<Worker*> workers)

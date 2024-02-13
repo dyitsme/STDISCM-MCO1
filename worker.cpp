@@ -20,33 +20,14 @@ void Worker::compute()
     dx = ball->speed*qCos(qDegreesToRadians(ball->angle));
     dy = ball->speed*qSin(qDegreesToRadians(ball->angle));
 
-    // qInfo() << dx << "," << dy << "," << this;
-    //qInfo() << ball->x() << "," << ball->y() << "," << this;
 
-    // qInfo() << "dx =" << dx << "*cos(" << ball->angle << ")" << QThread::currentThread();
-    // qInfo() << "dy =" << dy << "*sin("<< ball->angle << ")" << QThread::currentThread();
-
-    // qInfo() << "startingdx: " << startingPosX + dx << QThread::currentThread();
-    // qInfo() << "startingdy: " << startingPosY + dy << QThread::currentThread();
-
-    // QThread::currentThread()->msleep(500);
-    // qInfo() << "Worker: " << this;
     emit signalSetPos(this, reflectionX, reflectionY, dx, dy, collide);
 }
 
 
 std::tuple<qreal, qreal, bool> Worker::checkCollision()
 {
-    // QList<QGraphicsItem*> colliding_items = collidingItems();
-    // for (QGraphicsItem* item : colliding_items) {
-    //     Wall* wall = dynamic_cast<Wall*>(item);
-    //     if (typeid(*item) == typeid(Wall)) {
-    //         qDebug() << "Hit";
-    //         qreal wallAngle = calculateWallAngle(wall);
-    //         DoCollision(wallAngle);
-    //         return; // Assume one collision at a time for simplicity
-    //     }
-    // }
+
 
     QList<QGraphicsItem*> colliding_items = ball->collidingItems();
     QList<QLineF> colliding_walls;
@@ -84,41 +65,77 @@ qreal Worker::calculateWallAngle(Wall* wall)
     return angle;
 }
 
+std::tuple<qreal, qreal, bool> Worker::DoCollision(const QList<QLineF>& walls) {
+    bool collisionOccurred = false;
 
+    for (const QLineF& wallLine : walls) {
+        qreal dx = wallLine.p2().x() - wallLine.p1().x();
+        qreal dy = wallLine.p2().y() - wallLine.p1().y();
 
-std::tuple<qreal, qreal, bool> Worker::DoCollision(const QList<QLineF>& walls)
-{
-    qreal incomingAngle = angle;
-    qreal totalReflectionAngle = 0.0;
-    int wallCount = 0;
-    \
+        // Assuming a very small value to account for floating point imprecision
+        const qreal epsilon = 0.01;
 
-        for (const QLineF& wallLine : walls) {
-        qreal wallAngle = qRadiansToDegrees(qAtan2(wallLine.dy(), wallLine.dx()));
-        qreal reflectionAngle = 2 * wallAngle - incomingAngle;
-        qDebug() << reflectionAngle;
-        totalReflectionAngle += reflectionAngle;
-        wallCount++;
+        if (std::abs(dy) < epsilon) { // Horizontal wall
+            ball->angle = 360 - ball->angle;
+            collisionOccurred = true;
+        } else if (std::abs(dx) < epsilon) { // Vertical wall
+            ball->angle = 180 - ball->angle;
+            collisionOccurred = true;
+        }
+
+        // Normalize the angle
+        if (ball->angle < 0) ball->angle += 360;
+        else if (ball->angle >= 360) ball->angle -= 360;
     }
 
-    // qDebug() << wallCount;
+    // Assuming no displacement if no collision occurred
+    qreal reflectionX = ball->x();
+    qreal reflectionY = ball->y();
 
-    // Calculate the average reflection angle
-    qreal averageReflectionAngle = totalReflectionAngle / wallCount;
-
-    if (wallCount == 2){
-        averageReflectionAngle -= 180;
+    if (collisionOccurred) {
+        // Adjust the ball's position based on its new angle to prevent sticking to the wall
+        qreal epsilon = 5.0; // Adjust based on ball speed and desired effect
+        reflectionX += epsilon * qCos(qDegreesToRadians(ball->angle));
+        reflectionY += epsilon * qSin(qDegreesToRadians(ball->angle));
     }
-    // Set the ball's angle to the new average reflection angle
-    ball->angle = averageReflectionAngle;
 
-    // qDebug() << angle;
-    // Move the ball slightly away from the walls to avoid repeated collisions
-    qreal epsilon = 1.0;
-    qreal reflectionX = ball->x() + epsilon * qCos(qDegreesToRadians(averageReflectionAngle));
-    qreal reflectionY = ball->y() + epsilon * qSin(qDegreesToRadians(averageReflectionAngle));
-
-    //ball->setPos(reflectionX, reflectionY);
-    return std::make_tuple(reflectionX, reflectionY, true);
-
+    return std::make_tuple(reflectionX, reflectionY, collisionOccurred);
 }
+
+
+// std::tuple<qreal, qreal, bool> Worker::DoCollision(const QList<QLineF>& walls)
+// {
+//     qreal incomingAngle = angle;
+//     qreal totalReflectionAngle = 0.0;
+//     int wallCount = 0;
+//     \
+
+//     for (const QLineF& wallLine : walls) {
+//         qreal wallAngle = qRadiansToDegrees(qAtan2(wallLine.dy(), wallLine.dx()));
+//         qreal reflectionAngle = 2 * wallAngle - incomingAngle;
+//         qDebug() << reflectionAngle;
+//         totalReflectionAngle += reflectionAngle;
+//         wallCount++;
+//     }
+
+//     // qDebug() << wallCount;
+
+//     // Calculate the average reflection angle
+//     qreal averageReflectionAngle = totalReflectionAngle / wallCount;
+
+//     if (wallCount == 2){
+//         averageReflectionAngle -= 180;
+//     }
+//     // Set the ball's angle to the new average reflection angle
+//     ball->angle = averageReflectionAngle;
+
+//     // qDebug() << angle;
+//     // Move the ball slightly away from the walls to avoid repeated collisions
+//     qreal epsilon = 1.0;
+//     qreal reflectionX = ball->x() + epsilon * qCos(qDegreesToRadians(averageReflectionAngle));
+//     qreal reflectionY = ball->y() + epsilon * qSin(qDegreesToRadians(averageReflectionAngle));
+
+//     //ball->setPos(reflectionX, reflectionY);
+//     return std::make_tuple(reflectionX, reflectionY, true);
+
+// }
