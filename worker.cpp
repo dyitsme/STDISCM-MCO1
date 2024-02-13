@@ -110,7 +110,7 @@ std::tuple<qreal, qreal, bool> Worker::DoCollision(const QList<QLineF>& walls)
         averageReflectionAngle -= 180;
     }
     // Set the ball's angle to the new average reflection angle
-    angle = averageReflectionAngle;
+    ball->angle = averageReflectionAngle;
 
     // qDebug() << angle;
     // Move the ball slightly away from the walls to avoid repeated collisions
