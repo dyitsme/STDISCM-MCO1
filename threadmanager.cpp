@@ -4,7 +4,7 @@ ThreadManager::ThreadManager(QObject *parent)
     : QObject{parent}
 {
     currSize = 0;
-    maxSize = 4;
+    maxSize = 16;
     currThread = new QThread();
     timer = new QTimer();
     timer->start(10);
@@ -49,9 +49,16 @@ void ThreadManager::updatePosition(Worker *worker, qreal reflectionX, qreal refl
 
     // i++;
     // qInfo() << "This thread: " << QThread::currentThread();
-    if(collide){
-        qInfo() << "collide: " << collide;
+    // if(collide){
+    //     qInfo() << "collide: " << collide;
+    //     worker->ball->setPos(reflectionX, reflectionY);
+    // }
+    if (collide) {
+        // Update the position only if there was a collision
+        //qInfo() << "reflectionX: " << reflectionX;
+        qInfo() << "RANDOM";
         worker->ball->setPos(reflectionX, reflectionY);
+        qInfo() << reflectionX << "," << reflectionY << "," << this;
     }
     worker->ball->setPos(worker->ball->mapToParent(dx, dy));
 }
