@@ -8,7 +8,12 @@ ThreadManager::ThreadManager(QObject *parent)
     currThread = new QThread();
     timer = new QTimer();
     timer->start(10);
-
+    for(int i = 0; i < 100; i++){
+        QThread *thread = new QThread(this);
+        threadPool.enqueue(thread);
+        thread->start();
+    }
+    qDebug() << "threadsize:" << threadPool.size();
 
 }
 
@@ -17,10 +22,21 @@ void ThreadManager::useExistingOrCreateThread(QVector<Worker*> workers)
 
     for (int i = 0; i < workers.size(); i++)
     {
-        if (currSize >= maxSize)
+        if(threadPool.isEmpty()){
+
+            for(int i = 0; i < 10; i++){
+                QThread *thread = new QThread(this);
+                threadPool.enqueue(thread);
+                thread->start();
+            }
+
+
+        }
+        if (currSize >= maxSize || !currThread)
         {
-            QThread* newThread = new QThread();
-            currThread = newThread;
+            QThread *thread = threadPool.dequeue();
+
+            currThread = thread;
 
             currSize = 0;
         }

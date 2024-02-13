@@ -5,6 +5,7 @@
 #include <QThread>
 #include <QTimer>
 #include <QDebug>
+#include <QQueue>
 #include "worker.h"
 
 class ThreadManager : public QObject
@@ -24,6 +25,7 @@ private:
     QTimer *timer;
     QVector<Worker*> allWorkers;
     QVector <QThread*> threads;
+    QQueue<QThread*> threadPool;
 
 };
 
