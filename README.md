@@ -29,5 +29,5 @@ Before creating the wall, the start and end positions need to be setup to define
 - End (Y2)
 
 ## Authors
-Lim, Aurelius Justin
+Lim, Aurelius Justin\n
 Yongco, Denzel Bryan
