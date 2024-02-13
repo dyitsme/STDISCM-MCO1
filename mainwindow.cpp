@@ -104,10 +104,17 @@ void MainWindow::on_btnAddBall_clicked()
             angle = txtBallStartAngle->text().toDouble();
             qDebug() << "angle:" << angle;
             numBalls = 1;
+            QVector<Ball*> balls;
+            QVector<Worker*> workers;
             for (int i = 0; i < numBalls; ++i) {
                 Ball *ball = new Ball(startPosX, startPosY, speed, angle);
+                Worker *worker = new Worker(ball);
                 scene->addItem(ball);
+                workers.append(worker);
             }
+
+            threadManager->useExistingOrCreateThread(workers);
+
             txtBallPosX->setText("");
             txtBallPosY->setText("");
             //ui->txtNumBalls->setText("");
@@ -141,17 +148,23 @@ void MainWindow::on_btnAddBall_clicked()
 
 
             // QVector<Ball*> balls;
+            QVector<Ball*> balls;
+            QVector<Worker*> workers;
 
             for (int i = 0; i < numBalls; ++i) {
                 qreal currentPosX = startPosX + i * deltaX;
                 qreal currentPosY = startPosY + i * deltaY;
 
                 Ball *ball = new Ball(currentPosX, currentPosY, speed, angle);
+                 Worker *worker = new Worker(ball);
                 // balls.append(ball);
                 scene->addItem(ball);
+                workers.append(worker);
             }
 
-            // threadManager->useExistingOrCreateThread(workers);
+
+
+            threadManager->useExistingOrCreateThread(workers);
 
             txtBallPosX->setText("");
             txtBallPosY->setText("");
@@ -196,7 +209,7 @@ void MainWindow::on_btnAddBall_clicked()
                 // timer start
                 // timer end
             }
-            allWorkers.append(workers);
+
 
             threadManager->useExistingOrCreateThread(workers);
 
@@ -226,12 +239,19 @@ void MainWindow::on_btnAddBall_clicked()
 
             numBalls = txtNumBalls->text().toInt();
             // calculate range
+            QVector<Ball*> balls;
+            QVector<Worker*> workers;
             qreal deltaVel = (endVel - speed) / (numBalls + 1);
             for (int i = 0; i < numBalls; ++i) {
                 qreal newVel = speed + i * deltaVel;
                 Ball *ball = new Ball(startPosX, startPosY, newVel, angle);
+                Worker *worker = new Worker(ball);
                 scene->addItem(ball);
+                workers.append(worker);
             }
+
+            threadManager->useExistingOrCreateThread(workers);
+
             txtBallPosX->setText("");
             txtBallPosY->setText("");
             txtBallStartSpeed->setText("");
