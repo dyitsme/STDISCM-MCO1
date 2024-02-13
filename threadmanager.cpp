@@ -27,7 +27,7 @@ void ThreadManager::useExistingOrCreateThread(QVector<Worker*> workers)
         // qInfo() << "useExistingOrCreateThread: " << QThread::currentThread();
 
         // QObject::connect(currThread, &QThread::started, workers[i], &Worker::compute);
-        QObject::disconnect(timer, &QTimer::timeout, workers[i], &Worker::compute);
+        //QObject::disconnect(timer, &QTimer::timeout, workers[i], &Worker::compute);
         QObject::connect(timer, &QTimer::timeout, workers[i], &Worker::compute, Qt::QueuedConnection);
         QObject::connect(workers[i], &Worker::signalSetPos, this, &ThreadManager::updatePosition, Qt::QueuedConnection);
 
@@ -44,10 +44,14 @@ void ThreadManager::useExistingOrCreateThread(QVector<Worker*> workers)
 
 
 int i = 0;
-void ThreadManager::updatePosition(Worker *worker, qreal startingPosX, qreal startingPosY, qreal dx, qreal dy)
+void ThreadManager::updatePosition(Worker *worker, qreal reflectionX, qreal reflectionY, qreal dx, qreal dy, bool collide)
 {
-    // qInfo() << i << "Worker " << worker;
+
     // i++;
     // qInfo() << "This thread: " << QThread::currentThread();
+    if(collide){
+        qInfo() << "collide: " << collide;
+        worker->ball->setPos(reflectionX, reflectionY);
+    }
     worker->ball->setPos(worker->ball->mapToParent(dx, dy));
 }

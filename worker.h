@@ -14,6 +14,7 @@
 #include <QTime>
 #include <QTimer>
 #include <QThread>
+#include <tuple>
 #include "ball.h"
 
 class Worker : public QObject
@@ -31,12 +32,12 @@ public:
     Ball *ball;
 
 signals:
-    void signalSetPos(Worker *worker, qreal startingPosX, qreal startingPosY, qreal dx, qreal dy);
+    void signalSetPos(Worker *worker, qreal reflectionX, qreal reflectionY, qreal dx, qreal dy, bool collide);
 
 private:
-    void checkCollision();
+    std::tuple<qreal, qreal, bool> checkCollision();
     qreal calculateWallAngle(Wall *wall);
-    void DoCollision(const QList<QLineF>& walls);
+    std::tuple<qreal, qreal, bool> DoCollision(const QList<QLineF>& walls);
 };
 
 #endif // WORKER_H

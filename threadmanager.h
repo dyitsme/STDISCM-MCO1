@@ -15,7 +15,7 @@ public:
     void useExistingOrCreateThread(QVector<Worker*> workers);
     void startTimer();
 public slots:
-    void updatePosition(Worker *worker, qreal startingPosX, qreal startingPosY, qreal dx, qreal dy);
+    void updatePosition(Worker *worker, qreal reflectionX, qreal reflectionY, qreal dx, qreal dy, bool collide);
 
 private:
     int maxSize;

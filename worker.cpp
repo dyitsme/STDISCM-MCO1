@@ -1,5 +1,5 @@
 #include "worker.h"
-
+#include <tuple>
 Worker::Worker(Ball *inputBall, QObject *parent)
     : QObject{parent}
 {
@@ -12,7 +12,8 @@ void Worker::compute()
 {
     // QThread::currentThread()->msleep(500);
 
-    // checkCollision();
+    auto [reflectionX, reflectionY, collide] = checkCollision();
+    qInfo() << reflectionX;
     startingPosX = ball->startingPosX;
     startingPosX = ball->startingPosY;
 
@@ -30,11 +31,11 @@ void Worker::compute()
 
     // QThread::currentThread()->msleep(500);
     // qInfo() << "Worker: " << this;
-    emit signalSetPos(this, startingPosX, startingPosY, dx, dy);
+    emit signalSetPos(this, reflectionX, reflectionY, dx, dy, collide);
 }
 
 
-void Worker::checkCollision()
+std::tuple<qreal, qreal, bool> Worker::checkCollision()
 {
     // QList<QGraphicsItem*> colliding_items = collidingItems();
     // for (QGraphicsItem* item : colliding_items) {
@@ -58,8 +59,10 @@ void Worker::checkCollision()
     }
 
     if (!colliding_walls.isEmpty()) {
+
         qDebug() << "Hit";
-        DoCollision(colliding_walls);
+        auto[reflectionX, reflectionY, collide] = DoCollision(colliding_walls);
+        return {reflectionX, reflectionY, collide};
     }
 }
 
@@ -97,7 +100,7 @@ qreal Worker::calculateWallAngle(Wall* wall)
 //     setPos(reflectionX, reflectionY);
 // }
 
-void Worker::DoCollision(const QList<QLineF>& walls)
+std::tuple<qreal, qreal, bool> Worker::DoCollision(const QList<QLineF>& walls)
 {
     qreal incomingAngle = angle;
     qreal totalReflectionAngle = 0.0;
@@ -128,8 +131,9 @@ void Worker::DoCollision(const QList<QLineF>& walls)
     qreal epsilon = 1.0;
     qreal reflectionX = ball->x() + epsilon * qCos(qDegreesToRadians(averageReflectionAngle));
     qreal reflectionY = ball->y() + epsilon * qSin(qDegreesToRadians(averageReflectionAngle));
-
-    ball->setPos(reflectionX, reflectionY);
+    bool collide = true;
+    return {reflectionX, reflectionY, collide};
+    //ball->setPos(reflectionX, reflectionY);
 
     // Ensure the ball is within the scene boundaries
     // qreal sceneWidth = scene()->width();
