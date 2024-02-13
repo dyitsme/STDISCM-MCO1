@@ -6,19 +6,12 @@ ThreadManager::ThreadManager(QObject *parent)
     currSize = 0;
     maxSize = 2;
     currThread = new QThread();
+    timer = new QTimer();
+    timer->start(500);
 }
 
 void ThreadManager::useExistingOrCreateThread(QVector<Worker*> workers)
 {
-    timer = new QTimer();
-    // if (workers.size() > 0) {
-    //     for (int i = 0; i < allWorkers.size(); i++) {
-    //         qInfo() << "info";
-    //         QObject::connect(allWorkers[i], &Worker::signalSetPos, this, &ThreadManager::updatePosition);
-    //     }
-    // }
-
-    timer->start(500);
 
     for (int i = 0; i < workers.size(); i++)
     {
@@ -34,6 +27,7 @@ void ThreadManager::useExistingOrCreateThread(QVector<Worker*> workers)
         // qInfo() << "useExistingOrCreateThread: " << QThread::currentThread();
 
         // QObject::connect(currThread, &QThread::started, workers[i], &Worker::compute);
+        QObject::disconnect(timer, &QTimer::timeout, workers[i], &Worker::compute);
         QObject::connect(timer, &QTimer::timeout, workers[i], &Worker::compute);
         QObject::connect(workers[i], &Worker::signalSetPos, this, &ThreadManager::updatePosition);
 
@@ -48,29 +42,10 @@ void ThreadManager::useExistingOrCreateThread(QVector<Worker*> workers)
     }
 }
 
-void ThreadManager::startTimer()
-{
-    timer = new QTimer(this);
 
-    // connect(timer, timeout, main, main thread:start)
-    // connect(main, main started, threads, thread start)
-    // connect(thread, thread start
-
-    QObject::connect(timer, &QTimer::timeout, [&]() {
-        // This code will execute when the timer times out
-        // qDebug() << "Timer timed out!";
-
-        for (int i = 0; i < allWorkers.size(); i++)
-        {
-            allWorkers[i]->compute();
-        }
-    });
-    timer->start(10);
-
-}
 
 void ThreadManager::updatePosition(Worker *worker, qreal startingPosX, qreal startingPosY, qreal dx, qreal dy)
 {
     qInfo() << "This thread: " << QThread::currentThread();
-    worker->ball->setPos(startingPosX+dx, startingPosY+dy);
+    worker->ball->setPos(worker->ball->mapToParent(dx, dy));
 }

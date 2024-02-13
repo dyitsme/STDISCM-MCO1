@@ -21,34 +21,19 @@ MainWindow::MainWindow(QWidget *parent)
     fpsLabel = ui->counterfpslabel;
     fpsLabel->setText("0");
 
-    // Setup a timer to update FPS
 
-
-
-    // moves the balls and computes for the fps of the scene, is dependent on the timer
-    // timer = new QTimer(scene);
-    // QObject::connect(timer, &QTimer::timeout, scene, &GameScene::advance);
-    // QObject::connect(timer, &QTimer::timeout, scene, &GameScene::computeFPS);
-    // timer->start(10);
 
     fpsTimer = new QTimer(this);
     QObject::connect(fpsTimer, &QTimer::timeout, this, &MainWindow::displayFPS);
     fpsTimer->start(500); // Update every half-second
 
 
-    // elapsedTimer = new QElapsedTimer();
-    // elapsedTimer->start();
-    // qDebug() << "elapsedTimer" << (double)elapsedTimer->elapsed()/1000.00;
 
-    // Set the transformation to flip the Y-axis
     QTransform transform;
     transform.scale(1, -1); // Flip the Y-axis
     transform.translate(0, -ui->graphicsView->height()); // Shift the scene downwards
     ui->graphicsView->setTransform(transform);
 
-
-    // Set the pen to a transparent color
-    //QPen pen(Qt::transparent);
 
 
 
@@ -250,11 +235,6 @@ void MainWindow::on_btnAddBall_clicked()
         }
 
     }
-
-
-
-
-    // clearing of input fields
 
 
 

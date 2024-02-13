@@ -4,6 +4,16 @@
 #include <QObject>
 #include <QThread>
 #include <QDebug>
+
+#include <QPainter>
+#include <QGraphicsItem>
+#include <QGraphicsScene>
+#include <QRandomGenerator>
+#include <QtMath>
+#include <wall.h>
+#include <QTime>
+#include <QTimer>
+#include <QThread>
 #include "ball.h"
 
 class Worker : public QObject
