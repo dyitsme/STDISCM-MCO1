@@ -23,6 +23,11 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 
+    timer = new QTimer(scene);
+    // QObject::connect(timer, &QTimer::timeout, scene, &GameScene::advance);
+    QObject::connect(timer, &QTimer::timeout, scene, &GameScene::computeFPS);
+    timer->start(10);
+
     fpsTimer = new QTimer(this);
     QObject::connect(fpsTimer, &QTimer::timeout, this, &MainWindow::displayFPS);
     fpsTimer->start(500); // Update every half-second
@@ -182,6 +187,7 @@ void MainWindow::on_btnAddBall_clicked()
             qreal deltaAngle = (endAngle - angle) / (numBalls + 1);
             for (int i = 0; i < numBalls; ++i) {
                 qreal newAngle = deltaAngle + i * deltaAngle;
+                qInfo() << "New angle " << newAngle;
                 Ball *ball = new Ball(startPosX, startPosY, speed, newAngle);
                 Worker *worker = new Worker(ball);
 

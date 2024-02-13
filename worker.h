@@ -34,6 +34,9 @@ signals:
     void signalSetPos(Worker *worker, qreal startingPosX, qreal startingPosY, qreal dx, qreal dy);
 
 private:
+    void checkCollision();
+    qreal calculateWallAngle(Wall *wall);
+    void DoCollision(const QList<QLineF>& walls);
 };
 
 #endif // WORKER_H

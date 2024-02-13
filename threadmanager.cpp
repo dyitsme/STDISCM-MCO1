@@ -4,10 +4,10 @@ ThreadManager::ThreadManager(QObject *parent)
     : QObject{parent}
 {
     currSize = 0;
-    maxSize = 2;
+    maxSize = 4;
     currThread = new QThread();
     timer = new QTimer();
-    timer->start(500);
+    timer->start(10);
 }
 
 void ThreadManager::useExistingOrCreateThread(QVector<Worker*> workers)
@@ -28,8 +28,8 @@ void ThreadManager::useExistingOrCreateThread(QVector<Worker*> workers)
 
         // QObject::connect(currThread, &QThread::started, workers[i], &Worker::compute);
         QObject::disconnect(timer, &QTimer::timeout, workers[i], &Worker::compute);
-        QObject::connect(timer, &QTimer::timeout, workers[i], &Worker::compute);
-        QObject::connect(workers[i], &Worker::signalSetPos, this, &ThreadManager::updatePosition);
+        QObject::connect(timer, &QTimer::timeout, workers[i], &Worker::compute, Qt::QueuedConnection);
+        QObject::connect(workers[i], &Worker::signalSetPos, this, &ThreadManager::updatePosition, Qt::QueuedConnection);
 
 
         currSize++;
@@ -43,9 +43,11 @@ void ThreadManager::useExistingOrCreateThread(QVector<Worker*> workers)
 }
 
 
-
+int i = 0;
 void ThreadManager::updatePosition(Worker *worker, qreal startingPosX, qreal startingPosY, qreal dx, qreal dy)
 {
-    qInfo() << "This thread: " << QThread::currentThread();
+    // qInfo() << i << "Worker " << worker;
+    // i++;
+    // qInfo() << "This thread: " << QThread::currentThread();
     worker->ball->setPos(worker->ball->mapToParent(dx, dy));
 }
