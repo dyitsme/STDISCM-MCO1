@@ -45,7 +45,7 @@ void ThreadManager::useExistingOrCreateThread(QVector<Worker*> workers)
         // qInfo() << "useExistingOrCreateThread: " << QThread::currentThread();
 
         // QObject::connect(currThread, &QThread::started, workers[i], &Worker::compute);
-        QObject::disconnect(timer, &QTimer::timeout, workers[i], &Worker::compute);
+        // QObject::disconnect(timer, &QTimer::timeout, workers[i], &Worker::compute);
         QObject::connect(timer, &QTimer::timeout, workers[i], &Worker::compute, Qt::DirectConnection);
         QObject::connect(workers[i], &Worker::signalSetPos, this, &ThreadManager::updatePosition, Qt::QueuedConnection);
 
