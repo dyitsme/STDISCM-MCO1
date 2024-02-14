@@ -29,11 +29,6 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void paintEvent(QPaintEvent *event) override;
-
-
-public slots:
-    void updatePosition(Worker *worker, qreal startingPosX, qreal startingPosY, qreal dx, qreal dy);
 
 protected:
 
