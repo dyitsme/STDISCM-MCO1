@@ -1,6 +1,5 @@
 #include "ball.h"
 #include "wall.h"
-// #include "mainwindow.h"
 #include "cstdlib"
 #include <QDebug>
 
@@ -27,19 +26,9 @@ void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 }
 
 
-void Ball::run()
-{
-    timer = new QTimer(this);
-    QObject::connect(timer, &QTimer::timeout, this, &Ball::compute);
-    timer->start(10);
-}
-
 qreal mdx, mdy;
 void Ball::compute()
 {
-    // QThread::currentThread()->msleep(500);
-
-    // checkCollision();
 
     mdx += speed*qCos(qDegreesToRadians(angle));
     mdy += speed*qSin(qDegreesToRadians(angle));
@@ -65,34 +54,10 @@ void Ball::advance(int step)
 
     setPos(mapToParent(dx, dy));
 
-    // QTime currentTime = QTime::currentTime();
-    // int elapsedTime = lastTime.msecsTo(currentTime);
-    // lastTime = currentTime;
-
-    // if (elapsedTime > 0) {
-    //     double fps = 1000.0 / elapsedTime;
-    //     // frames++;
-    //     qDebug() << "FPS:" << QString::number(fps, 'f', 2);
-    // }
-
-    // qDebug() << dx << " " << dy;
-    // update();
-    // QPaintEvent event;
-    // MainWindow* mainWindow.paintEvent(event);
 }
 
 void Ball::checkCollision()
 {
-    // QList<QGraphicsItem*> colliding_items = collidingItems();
-    // for (QGraphicsItem* item : colliding_items) {
-    //     Wall* wall = dynamic_cast<Wall*>(item);
-    //     if (typeid(*item) == typeid(Wall)) {
-    //         qDebug() << "Hit";
-    //         qreal wallAngle = calculateWallAngle(wall);
-    //         DoCollision(wallAngle);
-    //         return; // Assume one collision at a time for simplicity
-    //     }
-    // }
 
     QList<QGraphicsItem*> colliding_items = collidingItems();
     QList<QLineF> colliding_walls;
@@ -119,30 +84,11 @@ qreal Ball::calculateWallAngle(Wall* wall)
     qreal angle = qRadiansToDegrees(qAtan2(wallLine.dy(), wallLine.dx()));
 
     // Calculate the angle in degrees
-    //qreal angle = qRadiansToDegrees(qAtan2(wallY - ballY, wallX - ballX));
-
-    // qDebug() << angle;
-    // Ensure the angle is positive and in the range [0, 360)
     angle = fmod(angle + 360.0, 360.0);
 
     return angle;
 }
 
-// void Ball::DoCollision(qreal wallAngle)
-// {
-//     qreal reflectionAngle = 2 * wallAngle - angle;
-
-//     // Adjust the ball's angle to the new reflection angle
-//     angle = reflectionAngle;
-
-//     qDebug() << angle;
-//     // Move the ball slightly away from the wall to avoid repeated collisions
-//     qreal epsilon = 1.0;
-//     qreal reflectionX = x() + epsilon * qCos(qDegreesToRadians(reflectionAngle));
-//     qreal reflectionY = y() + epsilon * qSin(qDegreesToRadians(reflectionAngle));
-
-//     setPos(reflectionX, reflectionY);
-// }
 
 void Ball::DoCollision(const QList<QLineF>& walls)
 {
@@ -178,19 +124,6 @@ void Ball::DoCollision(const QList<QLineF>& walls)
 
     setPos(reflectionX, reflectionY);
 
-    // Ensure the ball is within the scene boundaries
-    // qreal sceneWidth = scene()->width();
-    // qreal sceneHeight = scene()->height();
-
-    // if (x() < 0)
-    //     setX(0);
-    // else if (x() > sceneWidth)
-    //     setX(sceneWidth);
-
-    // if (y() < 0)
-    //     setY(0);
-    // else if (y() > sceneHeight)
-    //     setY(sceneHeight);
 }
 
 
@@ -199,21 +132,4 @@ QPainterPath Ball::shape() const
     QPainterPath path;
     path.addEllipse(boundingRect());
     return path;
-}
-
-qreal Ball::getStartPosX()
-{
-    return startingPosX;
-}
-qreal Ball::getStartPosY()
-{
-    return startingPosY;
-}
-qreal Ball::getAngle()
-{
-    return angle;
-}
-qreal Ball::getSpeed()
-{
-    return speed;
 }

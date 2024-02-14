@@ -11,7 +11,7 @@
 #include <QTimer>
 #include <QThread>
 
-class Ball : public QGraphicsObject
+class Ball : public QGraphicsItem
 {
 public:
     Ball(qreal startPosX, qreal startPosY, qreal speed, qreal angle);
@@ -19,10 +19,6 @@ public:
     QPainterPath shape() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                QWidget *widget) override;
-    qreal getStartPosX();
-    qreal getStartPosY();
-    qreal getAngle();
-    qreal getSpeed();
 
     qreal startingPosX = 0;
     qreal startingPosY = 0;
@@ -40,11 +36,6 @@ protected slots:
     void DoCollision(const QList<QLineF>& walls);
 
 private:
-    // qreal startingPosX = 0;
-    // qreal startingPosY = 0;
-    // qreal angle = 0;
-    // qreal speed = 0;
-
     QTime lastTime;
     QTimer *timer;
     int frames;
