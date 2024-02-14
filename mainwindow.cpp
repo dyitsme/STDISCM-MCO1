@@ -24,7 +24,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     timer = new QTimer(scene);
-    // QObject::connect(timer, &QTimer::timeout, scene, &GameScene::advance);
     QObject::connect(timer, &QTimer::timeout, scene, &GameScene::computeFPS);
     timer->start(10);
 
@@ -36,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     QTransform transform;
     transform.scale(1, -1); // Flip the Y-axis
+    // transform.scale(0.5, -0.5);
     transform.translate(0, -ui->graphicsView->height()); // Shift the scene downwards
     ui->graphicsView->setTransform(transform);
 
@@ -69,12 +69,6 @@ void MainWindow::displayFPS()
 {
     double fps = scene->getFPS();
     fpsLabel->setText(QString::number(fps, 'f', 1));
-}
-
-void MainWindow::paintEvent(QPaintEvent *event)
-{
-    // Increment frame count
-    ++frameCount;
 }
 
 
@@ -551,9 +545,4 @@ void MainWindow::initializeInput()
 
     button->setObjectName("btnAddBall");
     connect(button, &QPushButton::clicked, this, &MainWindow::on_btnAddBall_clicked);
-}
-
-void MainWindow::updatePosition(Worker* worker, qreal startingPosX, qreal startingPosY, qreal dx, qreal dy)
-{
-    worker->ball->setPos(startingPosX+dx, startingPosY+dy);
 }

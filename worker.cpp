@@ -20,6 +20,7 @@ void Worker::compute()
     dx = ball->speed*qCos(qDegreesToRadians(ball->angle));
     dy = ball->speed*qSin(qDegreesToRadians(ball->angle));
 
+    qInfo() << "Worker Thread: " << QThread::currentThread();
 
     emit signalSetPos(this, reflectionX, reflectionY, dx, dy, collide);
 }
@@ -56,10 +57,6 @@ qreal Worker::calculateWallAngle(Wall* wall)
     qreal angle = qRadiansToDegrees(qAtan2(wallLine.dy(), wallLine.dx()));
 
     // Calculate the angle in degrees
-    //qreal angle = qRadiansToDegrees(qAtan2(wallY - ballY, wallX - ballX));
-
-    // qDebug() << angle;
-    // Ensure the angle is positive and in the range [0, 360)
     angle = fmod(angle + 360.0, 360.0);
 
     return angle;

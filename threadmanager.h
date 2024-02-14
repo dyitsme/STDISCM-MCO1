@@ -24,7 +24,6 @@ private:
     QThread *currThread;
     QTimer *timer;
     QVector<Worker*> allWorkers;
-    QVector <QThread*> threads;
     QQueue<QThread*> threadPool;
 
 };
