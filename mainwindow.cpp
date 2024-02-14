@@ -111,7 +111,6 @@ void MainWindow::on_btnAddBall_clicked()
 
             txtBallPosX->setText("");
             txtBallPosY->setText("");
-            //ui->txtNumBalls->setText("");
             txtBallStartSpeed->setText("");
             txtBallStartAngle->setText("");
             break;
@@ -160,6 +159,7 @@ void MainWindow::on_btnAddBall_clicked()
 
             threadManager->useExistingOrCreateThread(workers);
 
+            txtNumBalls->setText("");
             txtBallPosX->setText("");
             txtBallPosY->setText("");
             txtBallEndPosX->setText("");
@@ -207,6 +207,7 @@ void MainWindow::on_btnAddBall_clicked()
 
             threadManager->useExistingOrCreateThread(workers);
 
+            txtNumBalls->setText("");
             txtBallPosX->setText("");
             txtBallPosY->setText("");
             txtBallStartSpeed->setText("");
@@ -246,6 +247,7 @@ void MainWindow::on_btnAddBall_clicked()
 
             threadManager->useExistingOrCreateThread(workers);
 
+            txtNumBalls->setText("");
             txtBallPosX->setText("");
             txtBallPosY->setText("");
             txtBallStartSpeed->setText("");

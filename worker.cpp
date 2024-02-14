@@ -20,7 +20,7 @@ void Worker::compute()
     dx = ball->speed*qCos(qDegreesToRadians(ball->angle));
     dy = ball->speed*qSin(qDegreesToRadians(ball->angle));
 
-    qInfo() << "Worker Thread: " << QThread::currentThread();
+    // qInfo() << "Worker Thread: " << QThread::currentThread();
 
     emit signalSetPos(this, reflectionX, reflectionY, dx, dy, collide);
 }

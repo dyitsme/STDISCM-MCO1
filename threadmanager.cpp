@@ -66,7 +66,7 @@ void ThreadManager::updatePosition(Worker *worker, qreal reflectionX, qreal refl
     if (collide) {
         // Update the position only if there was a collision
         //qInfo() << "reflectionX: " << reflectionX;
-        qInfo() << "GUI Thread: " << QThread::currentThread();
+        // qInfo() << "GUI Thread: " << QThread::currentThread();
         worker->ball->setPos(reflectionX, reflectionY);
         qInfo() << reflectionX << "," << reflectionY << "," << this;
     }
