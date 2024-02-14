@@ -66,19 +66,29 @@ std::tuple<qreal, qreal, bool> Worker::DoCollision(const QList<QLineF>& walls) {
     bool collisionOccurred = false;
 
     for (const QLineF& wallLine : walls) {
-        qreal dx = wallLine.p2().x() - wallLine.p1().x();
-        qreal dy = wallLine.p2().y() - wallLine.p1().y();
+        // Calculate normal vector of the wall
+        qreal wallDx = wallLine.p2().x() - wallLine.p1().x();
+        qreal wallDy = wallLine.p2().y() - wallLine.p1().y();
+        // Normal vector (perpendicular to the wall)
+        QPointF normal(-wallDy, wallDx);
+        qreal normalLength = qSqrt(normal.x()*normal.x() + normal.y()*normal.y());
+        // Normalize the normal vector
+        normal /= normalLength;
 
-        // Assuming a very small value to account for floating point imprecision
-        const qreal epsilon = 0.01;
+        // Ball's direction vector
+        qreal ballDx = qCos(qDegreesToRadians(ball->angle));
+        qreal ballDy = qSin(qDegreesToRadians(ball->angle));
 
-        if (std::abs(dy) < epsilon) { // Horizontal wall
-            ball->angle = 360 - ball->angle;
-            collisionOccurred = true;
-        } else if (std::abs(dx) < epsilon) { // Vertical wall
-            ball->angle = 180 - ball->angle;
-            collisionOccurred = true;
-        }
+        // Dot product between ball's direction and wall's normal vector
+        qreal dot = ballDx*normal.x() + ballDy*normal.y();
+
+        // Reflect ball's direction vector across the wall's normal vector
+        qreal reflectDx = ballDx - 2 * dot * normal.x();
+        qreal reflectDy = ballDy - 2 * dot * normal.y();
+
+        // Update ball's angle based on reflected direction
+        ball->angle = qRadiansToDegrees(qAtan2(reflectDy, reflectDx));
+        collisionOccurred = true;
 
         // Normalize the angle
         if (ball->angle < 0) ball->angle += 360;
@@ -91,7 +101,7 @@ std::tuple<qreal, qreal, bool> Worker::DoCollision(const QList<QLineF>& walls) {
 
     if (collisionOccurred) {
         // Adjust the ball's position based on its new angle to prevent sticking to the wall
-        qreal epsilon = 5.0; // Adjust based on ball speed and desired effect
+        qreal epsilon = 1.0; // Adjust based on ball speed and desired effect
         reflectionX += epsilon * qCos(qDegreesToRadians(ball->angle));
         reflectionY += epsilon * qSin(qDegreesToRadians(ball->angle));
     }
