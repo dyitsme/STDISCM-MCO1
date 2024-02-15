@@ -15,6 +15,8 @@
 #include <QTimer>
 #include <QThread>
 #include <tuple>
+#include <QCoreApplication>
+#include <QMutex>
 #include "ball.h"
 
 class Worker : public QObject

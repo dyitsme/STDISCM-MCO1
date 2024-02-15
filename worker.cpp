@@ -11,9 +11,8 @@ qreal dx, dy;
 void Worker::compute()
 {
     // QThread::currentThread()->msleep(500);
-
     auto [reflectionX, reflectionY, collide] = checkCollision();
-
+    // QCoreApplication::processEvents();
     startingPosX = ball->startingPosX;
     startingPosY = ball->startingPosY;
 
@@ -21,6 +20,8 @@ void Worker::compute()
     dy = ball->speed*qSin(qDegreesToRadians(ball->angle));
 
     // qInfo() << "Worker Thread: " << QThread::currentThread();
+
+
 
     emit signalSetPos(this, reflectionX, reflectionY, dx, dy, collide);
 }

@@ -6,6 +6,8 @@
 #include <QTimer>
 #include <QDebug>
 #include <QQueue>
+#include <QMutexLocker>
+#include <QCoreApplication>
 #include "worker.h"
 
 class ThreadManager : public QObject
