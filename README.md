@@ -14,7 +14,7 @@ Screenshot of the app
 3. Open the online installer and you'll be greeted with a login screen
 <img src="img/login.png">
 
-4. If you don't have an account, create one by pressing **Sign Up** and fill up necessaru details. If you have an account, proceed to step 5
+4. If you don't have an account, create one by pressing **Sign Up** and fill up necessary details. If you have an account, proceed to step 5
 5. Under **Installation Folder** there will be many installation options, choose **Qt 6.6 for desktop development**
 6. Install Qt, it may take a while to install
 <img src="img/installingqt.png">
